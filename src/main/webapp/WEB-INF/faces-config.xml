@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config version="1.2" xmlns="http://java.sun.com/xml/ns/javaee"
+ xmlns:xi="http://www.w3.org/2001/XInclude"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_1_2.xsd">
+ <managed-bean>
+  <managed-bean-name>ghostBean</managed-bean-name>
+  <managed-bean-class>com.luisgal.ghost.controller.GhostBean</managed-bean-class>
+  <managed-bean-scope>request</managed-bean-scope>
+  <managed-property>
+   <property-name>facade</property-name>
+   <value>#{ghostFacade}</value>
+  </managed-property>
+  <managed-property>
+   <property-name>model</property-name>
+   <value>#{ghostModel}</value>
+  </managed-property>
+ </managed-bean>
+ <managed-bean>
+  <managed-bean-name>ghostModel</managed-bean-name>
+  <managed-bean-class>com.luisgal.ghost.model.GhostModel</managed-bean-class>
+  <managed-bean-scope>session</managed-bean-scope>
+ </managed-bean>
+ <navigation-rule>
+  <from-view-id>/*</from-view-id>
+  <navigation-case>
+   <from-outcome>start</from-outcome>
+   <to-view-id>/pages/game.xhtml</to-view-id>
+  </navigation-case>
+ </navigation-rule>
+ <application>
+  <locale-config>
+   <default-locale>en</default-locale>
+   <supported-locale>en</supported-locale>
+  </locale-config>
+  <resource-bundle>
+   <base-name>com.luisgal.ghost.messages.MainMessages</base-name>
+   <var>msg</var>
+  </resource-bundle>
+  <el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver</el-resolver>
+ </application>
+</faces-config>

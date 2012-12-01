@@ -1,0 +1,24 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:rich="http://richfaces.org/rich">
+<body>
+	<ui:composition template="/pages/template/page.xhtml">
+		<ui:param name="title" value="#{msg['title']}" />
+		<ui:define name="header">
+			<h:outputText value="#{msg['welcome.title']}" />
+		</ui:define>
+		<ui:define name="central">
+			<h:outputText value="#{msg['welcome.message']}" />
+		</ui:define>
+		<ui:define name="footer">
+			<h:form>
+					<h:commandButton action="#{ghostBean.startGame}" value="#{msg['welcome.init.desc']}"
+						alt="#{msg['welcome.init.alt']}" />
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</body>
+</html>

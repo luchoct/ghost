@@ -1,0 +1,10 @@
+
+.importantText {
+	font-size:15px; 
+	margin-left:10px;
+}
+
+.resaltedText {
+	font-weight:bold;
+	color:red;	
+}

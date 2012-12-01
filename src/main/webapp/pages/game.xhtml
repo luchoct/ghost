@@ -1,0 +1,134 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j">
+<body>
+	<ui:composition template="/pages/template/page.xhtml">
+		<ui:param name="title" value="#{msg['title']}" />
+		<ui:define name="pageHeader">
+			<link href="${request.contextPath}/docs/ghost.css" rel="stylesheet" type="text/css" />
+			<script type="text/javascript">
+	     var infoWindowAMShown = false;
+	     var infoWindowAMTimer;
+	     function showModalInfoWindow()
+	     {
+	          infoWindowAMTimer = setTimeout("if(!infoWindowAMShown){Richfaces.showModalPanel('ajaxLoadingModalBox');infoWindowAMShown=true;}", 500);
+	     }
+	     function hideModalInfoWindow()
+	     {
+	          if (infoWindowAMShown){
+		          Richfaces.hideModalPanel('ajaxLoadingModalBox');
+		          infoWindowAMShown=false;
+		        } else {
+			        if (infoWindowAMTimer)
+				        clearTimeout(infoWindowAMTimer);
+			      }
+	     }
+			</script>
+		</ui:define>
+
+
+		<ui:define name="header">
+			<h:outputText value="#{msg['game.title']}" />
+		</ui:define>
+		<ui:define name="top">
+			<h:panelGroup>
+				<h:panelGrid id="result" columns="1" width="100%"
+					styleClass="importantText">
+					<h:outputText value="#{msg['game.state.code.init']}"
+						rendered="#{ghostBean.model.state.rating == null}" />
+					<h:outputText value="#{msg['game.state.code.p1w']}"
+						rendered="#{ghostBean.model.state.rating == -2}" />
+					<h:outputText value="#{msg['game.state.code.p1wpw']}"
+						rendered="#{ghostBean.model.state.rating == -1}" />
+					<h:outputText value="#{msg['game.state.code.p1mw']}"
+						rendered="#{ghostBean.model.state.rating == 0}" />
+					<h:outputText value="#{msg['game.state.code.p1wl']}"
+						rendered="#{ghostBean.model.state.rating == 1}" />
+					<h:outputText value="#{msg['game.state.code.p1lwp']}"
+						rendered="#{ghostBean.model.state.rating == 2}" />
+					<h:outputText value="#{msg['game.state.code.p1lwc']}"
+						rendered="#{ghostBean.model.state.rating == 3}" />
+				</h:panelGrid>
+			</h:panelGroup>
+		</ui:define>
+
+		<ui:define name="center">
+			<h:form>
+				<h:panelGrid columns="1" width="100%">
+					<rich:panel id="state">
+						<f:facet name="header">#{msg['game.state.message']}</f:facet>
+						<h:panelGroup>
+							<h:outputText value="#{msg['game.prefix.message']}: " />
+							<h:outputText id="prefix"
+								value="#{ghostBean.model.state.newPrefix}"
+								styleClass="resaltedText" />
+						</h:panelGroup>
+					</rich:panel>
+				</h:panelGrid>
+				<h:panelGrid columns="2" width="100%">
+					<rich:panel>
+						<f:facet name="header">#{msg['player1']}</f:facet>
+						<h:outputText value="#{msg['game.newInput.message']}" />
+						<h:inputText id="newInput" value="#{ghostBean.model.newInput}"
+							maxlength="1" size="1" disabled="#{(ghostBean.model.state.rating==-2) || (ghostBean.model.state.rating==2) || (ghostBean.model.state.rating==3)}">
+							<a4j:support actionListener="#{ghostBean.playerInput}"
+								event="onkeyup" ajaxSingle="true" ignoreDupResponses="true"
+								limitToList="true"
+								reRender="prefix,newInput,lastInput,metrics,state,result">
+							</a4j:support>
+						</h:inputText>
+					</rich:panel>
+					<rich:panel>
+						<f:facet name="header">#{msg['player2']}</f:facet>
+						<h:outputText value="#{msg['game.lastInput.message']}" />
+						<h:inputText id="lastInput" value="#{ghostBean.model.lastInput}"
+							maxlength="1" size="1" disabled="true" />
+					</rich:panel>
+				</h:panelGrid>
+			</h:form>
+			<a4j:log level="DEBUG" hotkey="Y" />
+			<a4j:status onstart="showModalInfoWindow();"
+				onstop="hideModalInfoWindow()" />
+			<rich:modalPanel id="ajaxLoadingModalBox" minHeight="70"
+				minWidth="200" height="70" width="200" zindex="2000">
+				<f:facet name="header">
+					<h:outputText value="#{msg['game.state.player2.moving']}" />
+				</f:facet>
+				<h:outputText value="#{msg['game.state.player2.moving.desc']}" />
+			</rich:modalPanel>
+
+		</ui:define>
+		<ui:define name="bottom">
+			<a4j:keepAlive beanName="ghostBean"/>
+			<rich:simpleTogglePanel id="metrics" switchType="ajax"
+				label="#{msg['game.metrics.title']}" opened="#{ghostBean.showMetrics}">
+				<h:panelGrid columns="1">
+					<h:outputText styleClass="importantText"
+						value="#{msg['game.metrics.inputs']}" />
+					<h:outputText
+						value="#{msg['game.metrics.winnerInputs']}: #{ghostBean.model.state.metrics.winnerInputs}" />
+					<h:outputText
+						value="#{msg['game.metrics.loserInputs']}: #{ghostBean.model.state.metrics.loserInputs}" />
+					<h:outputText styleClass="importantText"
+						value="#{msg['game.metrics.reachableSuffixes']}" />
+					<h:outputText
+						value="#{msg['game.metrics.winnerSuffixes']}: #{ghostBean.model.state.metrics.winnerSuffixes}" />
+					<h:outputText
+						value="#{msg['game.metrics.loserSuffixes']}: #{ghostBean.model.state.metrics.loserSuffixes}" />
+				</h:panelGrid>
+			</rich:simpleTogglePanel>
+		</ui:define>
+		<ui:define name="footer">
+			<h:form>
+				<h:commandButton action="#{ghostBean.startGame}"
+					value="#{msg['game.reset.desc']}" alt="#{msg['game.reset.desc']}" />
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</body>
+</html>

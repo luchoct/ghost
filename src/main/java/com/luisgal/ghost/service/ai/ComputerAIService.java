@@ -13,11 +13,14 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
 
 import com.luisgal.ghost.dto.GameMovementDTO;
+import com.luisgal.ghost.dto.GameRating;
 import com.luisgal.ghost.dto.GameStateDTO;
 import com.luisgal.ghost.dto.MetricsDTO;
-import com.luisgal.ghost.service.IComputerAI;
+import com.luisgal.ghost.service.ComputerAI;
 import com.luisgal.ghost.util.ComparatorUtils;
 import com.luisgal.ghost.util.NumberUtils;
 import com.luisgal.ghost.util.StringUtils;
@@ -27,7 +30,9 @@ import com.luisgal.ghost.util.StringUtils;
  * @author Luis
  * 
  */
-public class ComputerAIService implements IComputerAI {
+@Service
+@Qualifier("computerAI")
+public class ComputerAIService implements ComputerAI {
 
   /**
    * The logger of the class.
@@ -74,12 +79,12 @@ public class ComputerAIService implements IComputerAI {
           "The current movement must contain an input.");
     }
 
-    GameStateDTO newState = new GameStateDTO();
+    final GameStateDTO newState = new GameStateDTO();
     // It contains an empty set.
     assert (newState.getSuffixes() != null);
 
     if (LOGGER.isDebugEnabled()) {
-      StringBuilder sbMessage = new StringBuilder(100);
+      final StringBuilder sbMessage = new StringBuilder(100);
       sbMessage.append("Calculing next state from prefix <");
       sbMessage.append(currentMovement.getOldPrefix());
       sbMessage.append("> with input <");
@@ -88,7 +93,7 @@ public class ComputerAIService implements IComputerAI {
     }
 
     // The new prefix will be the joint of the ancient prefix and the input.
-    String newPrefix = (new StringBuilder(currentMovement.getOldPrefix()))
+    final String newPrefix = (new StringBuilder(currentMovement.getOldPrefix()))
         .append(currentMovement.getNewInput()).toString();
 
     SortedSet<String> suffixes = dictionary.get(newPrefix);
@@ -97,7 +102,7 @@ public class ComputerAIService implements IComputerAI {
        * The newPrefix is wrong. There are no words in the dictionary with that
        * prefix.
        */
-      newState.setRating(GameStateDTO.PLAYER_LOST_WRONG_PREFIX);
+      newState.setRating(GameRating.PLAYER_LOST_WRONG_PREFIX);
       /*
        * The computer doesn't add a new character and the new prefix contain the
        * wrong prefix.
@@ -108,7 +113,7 @@ public class ComputerAIService implements IComputerAI {
       /*
        * The newPrefix is a whole word.
        */
-      newState.setRating(GameStateDTO.PLAYER_LOST_WORD_COMPLETED);
+      newState.setRating(GameRating.PLAYER_LOST_WORD_COMPLETED);
       /*
        * The computer doesn't add a new character and the new prefix contain the
        * whole word.
@@ -122,13 +127,13 @@ public class ComputerAIService implements IComputerAI {
        * it doesn't assure that the computer is going to lost, because the
        * player can make a wrong prefix after next character of the computer.
        */
-      ComputerMetrics internalMetrics = calculeDictionaryMetrics(suffixes);
+      final ComputerMetrics internalMetrics = calculeDictionaryMetrics(suffixes);
       if (internalMetrics.isOnlyOneCharacterSuffixes()) {
         /*
          * The computer loses because he can only make words or make a wrong
          * prefix.
          */
-        newState.setRating(GameStateDTO.PLAYER_WINS_ONLY_ONE_CHARACTER_LEFT);
+        newState.setRating(GameRating.PLAYER_WINS_ONLY_ONE_CHARACTER_LEFT);
         /*
          * The computer doesn't add a new character and the new prefix contain
          * the prefix made by the user.
@@ -140,7 +145,7 @@ public class ComputerAIService implements IComputerAI {
             .get(0).toString()));
       } else if (!internalMetrics.getWinnerInputs().isEmpty()) {
         // The computer will win.
-        newState.setRating(Integer.valueOf(GameStateDTO.PLAYER_WILL_LOST));
+        newState.setRating(GameRating.PLAYER_WILL_LOST);
         /*
          * If the computer thinks it will win, it should play randomly among all
          * its winning moves. The first winner input is the shortest way to win.
@@ -151,7 +156,7 @@ public class ComputerAIService implements IComputerAI {
             .getWinnerInputs().get(ramdonIndex).toString()));
       } else if (!internalMetrics.getIntermediateInputs().isEmpty()) {
         // The computer may win.
-        newState.setRating(Integer.valueOf(GameStateDTO.PLAYER_MAY_WIN));
+        newState.setRating(GameRating.PLAYER_MAY_WIN);
         /*
          * The computer use the defensive strategy to choose the first of the
          * intermediate inputs.
@@ -161,8 +166,7 @@ public class ComputerAIService implements IComputerAI {
       } else {
         assert (!internalMetrics.getLoserInputs().isEmpty());
         // The computer will probably win.
-        newState.setRating(Integer
-            .valueOf(GameStateDTO.PLAYER_WILL_PROBABLY_WIN));
+        newState.setRating(GameRating.PLAYER_WILL_PROBABLY_WIN);
         /*
          * If the computer thinks it will lose, it should play so as to extend
          * the game as long as possible (choosing randomly among choices that
@@ -172,7 +176,7 @@ public class ComputerAIService implements IComputerAI {
         newState.setNewPrefix(newPrefix.concat(internalMetrics.getLoserInputs()
             .get(0).toString()));
       }
-      MetricsDTO metrics = new MetricsDTO();
+      final MetricsDTO metrics = new MetricsDTO();
       metrics.getWinnerInputs().addAll(internalMetrics.getWinnerInputs());
       metrics.getLoserInputs().addAll(internalMetrics.getLoserInputs());
       metrics.getWinnerSuffixes().addAll(internalMetrics.getWinnerSuffixes());
@@ -187,7 +191,7 @@ public class ComputerAIService implements IComputerAI {
       newState.getSuffixes().addAll(suffixes);
     }
     if (LOGGER.isDebugEnabled()) {
-      StringBuilder sbMessage = new StringBuilder(100);
+      final StringBuilder sbMessage = new StringBuilder(100);
       sbMessage.append("New state rating <");
       sbMessage.append(newState.getRating());
       sbMessage.append(">, new prefix <");
@@ -212,7 +216,7 @@ public class ComputerAIService implements IComputerAI {
     // This method doesn't need to be called if suffixes contain ""
     assert (!suffixes.contains(""));
 
-    ComputerMetrics metrics = new ComputerMetrics();
+    final ComputerMetrics metrics = new ComputerMetrics();
 
     // The number of even and odd suffixes is well initialised.
     assert ((metrics.getWinnerSuffixes() != null) && metrics
@@ -226,7 +230,7 @@ public class ComputerAIService implements IComputerAI {
      * suffixes are useful to decide the next movement (we'll never build the
      * word 'abduced').
      */
-    SortedSet<String> reachableSuffixes = getReachableSuffixes(suffixes);
+    final SortedSet<String> reachableSuffixes = getReachableSuffixes(suffixes);
     if (LOGGER.isTraceEnabled()) {
       LOGGER.trace("Reachable suffixes " + reachableSuffixes);
     }
@@ -239,7 +243,7 @@ public class ComputerAIService implements IComputerAI {
      */
     metrics.setOnlyOneCharacterSuffixes(true);
     for (String currentSuffix : reachableSuffixes) {
-      int lengthSuffix = currentSuffix.length();
+      final int lengthSuffix = currentSuffix.length();
       if (lengthSuffix > 1) {
         metrics.setOnlyOneCharacterSuffixes(false);
       }
@@ -280,7 +284,7 @@ public class ComputerAIService implements IComputerAI {
             metrics.getLoserSuffixes()));
 
     if (LOGGER.isDebugEnabled()) {
-      StringBuilder sbMessage = new StringBuilder(200);
+      final StringBuilder sbMessage = new StringBuilder(200);
       sbMessage.append("metrics of suffixes obtained: only 1 character <");
       sbMessage.append(metrics.isOnlyOneCharacterSuffixes());
       sbMessage.append(">, even reachable <");
@@ -307,11 +311,11 @@ public class ComputerAIService implements IComputerAI {
    */
   private SortedSet<String> getReachableSuffixes(
       final SortedSet<String> suffixes) {
-    SortedSet<String> reachableSuffixes = new TreeSet<String>();
-    Iterator<String> itSuffixes = suffixes.iterator();
+    final SortedSet<String> reachableSuffixes = new TreeSet<String>();
+    final Iterator<String> itSuffixes = suffixes.iterator();
     while (itSuffixes.hasNext()) {
-      String currentSuffix = itSuffixes.next();
-      SortedSet<String> otherSuffixes = new TreeSet<String>(suffixes);
+      final String currentSuffix = itSuffixes.next();
+      final SortedSet<String> otherSuffixes = new TreeSet<String>(suffixes);
       otherSuffixes.remove(currentSuffix);
       // otherSuffixes is a copy of suffixes without the current suffix.
       if (!StringUtils.containsSomePrefix(currentSuffix, otherSuffixes)) {
@@ -333,8 +337,9 @@ public class ComputerAIService implements IComputerAI {
       final Collection<String> winnerSuffixes,
       final Collection<String> loserSuffixes) {
 
-    List<Character> winners = new ArrayList<Character>();
-    List<String> lengthWinnerSuffixes = new LinkedList<String>(winnerSuffixes);
+    final List<Character> winners = new ArrayList<Character>();
+    final List<String> lengthWinnerSuffixes = new LinkedList<String>(
+        winnerSuffixes);
     Collections.sort(lengthWinnerSuffixes,
         ComparatorUtils.FIRST_SHORTER_COMPARATOR);
     /*
@@ -342,7 +347,7 @@ public class ComputerAIService implements IComputerAI {
      * shortest one.
      */
     for (String winnerSuffix : lengthWinnerSuffixes) {
-      Character input = Character.valueOf(winnerSuffix.charAt(0));
+      final Character input = Character.valueOf(winnerSuffix.charAt(0));
       if (!StringUtils.containsPrefix(loserSuffixes, input.toString())
           && (!winners.contains(input))) {
         /*
@@ -364,8 +369,9 @@ public class ComputerAIService implements IComputerAI {
   private List<Character> getLoserInputs(
       final Collection<String> winnerSuffixes,
       final Collection<String> loserSuffixes) {
-    List<Character> losers = new ArrayList<Character>();
-    List<String> lengthLoserSuffixes = new LinkedList<String>(loserSuffixes);
+    final List<Character> losers = new ArrayList<Character>();
+    final List<String> lengthLoserSuffixes = new LinkedList<String>(
+        loserSuffixes);
     Collections.sort(lengthLoserSuffixes,
         ComparatorUtils.FIRST_SHORTER_COMPARATOR);
     /*
@@ -373,7 +379,7 @@ public class ComputerAIService implements IComputerAI {
      * shortest one.
      */
     for (String loserSuffix : lengthLoserSuffixes) {
-      Character input = Character.valueOf(loserSuffix.charAt(0));
+      final Character input = Character.valueOf(loserSuffix.charAt(0));
       if (!StringUtils.containsPrefix(winnerSuffixes, input.toString())
           && (!losers.contains(input))) {
         /*
@@ -400,8 +406,9 @@ public class ComputerAIService implements IComputerAI {
       final Collection<String> winnerSuffixes,
       final Collection<String> loserSuffixes) {
 
-    List<Character> intermediate = new ArrayList<Character>();
-    List<String> lengthLoserSuffixes = new LinkedList<String>(loserSuffixes);
+    final List<Character> intermediate = new ArrayList<Character>();
+    final List<String> lengthLoserSuffixes = new LinkedList<String>(
+        loserSuffixes);
     Collections.sort(lengthLoserSuffixes,
         ComparatorUtils.FIRST_SHORTER_COMPARATOR);
     /*
@@ -409,7 +416,7 @@ public class ComputerAIService implements IComputerAI {
      * shortest one.
      */
     for (String loserSuffix : lengthLoserSuffixes) {
-      Character input = Character.valueOf(loserSuffix.charAt(0));
+      final Character input = Character.valueOf(loserSuffix.charAt(0));
       if ((StringUtils.containsPrefix(winnerSuffixes, input.toString()))
           && (!intermediate.contains(input))) {
         /*

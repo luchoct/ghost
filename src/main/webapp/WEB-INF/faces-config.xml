@@ -8,7 +8,7 @@
   <managed-bean-scope>request</managed-bean-scope>
   <managed-property>
    <property-name>facade</property-name>
-   <value>#{ghostFacade}</value>
+   <value>#{ghostFacadeImpl}</value>
   </managed-property>
   <managed-property>
    <property-name>model</property-name>

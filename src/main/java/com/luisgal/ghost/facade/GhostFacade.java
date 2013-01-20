@@ -3,51 +3,32 @@
  */
 package com.luisgal.ghost.facade;
 
-import java.util.SortedSet;
-import java.util.TreeMap;
-
 import com.luisgal.ghost.dto.GameMovementDTO;
 import com.luisgal.ghost.dto.GameStateDTO;
-import com.luisgal.ghost.service.IComputerAI;
-import com.luisgal.ghost.service.IDictionaryLoader;
+import com.luisgal.ghost.dto.MetricsDTO;
 
 /**
  * @author Luis
- * 
+ *
  */
-public class GhostFacade implements IGhostFacade {
+public interface GhostFacade {
 
-  /**
-   * The service that emulate the second player.
-   */
-  private IComputerAI computerAI;
-
-  /**
-   * It creates a facade, and loads the dictionary into the computerAI. Only odd
-   * length prefixes are used as keys because the dictionary is used for the
-   * player 2.
-   * @param dictionaryLoader service to load the dictionary.
-   * @param computerAI service that emulates the second player.
-   */
-  public GhostFacade(final IDictionaryLoader dictionaryLoader,
-      final IComputerAI computerAI) {
-    if (dictionaryLoader == null) {
-      throw new IllegalArgumentException("The dictionary loader can't be null");
-    } else if (computerAI == null) {
-      throw new IllegalArgumentException("The computer AI can't be null");
-    }
-    this.computerAI = computerAI;
-    TreeMap<String, SortedSet<String>> dictionary = dictionaryLoader
-        .loadDictionnary();
-    computerAI.setDictionary(dictionary);
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public final GameStateDTO getNextState(final GameMovementDTO currentMovement) {
-    return computerAI.getNextState(currentMovement);
-  }
-
+	/**
+	 * Taking the dictionary and the current movement, it returns the next state 
+	 * of the game.
+	 * @param currentMovement The information about the current movement. It
+	 * contains the last well-made prefix  and the current input of the player.
+	 * The current movement must an odd movement (the first, the third, etc.).
+	 * @return The new state of the game, with the rating of the current movement,
+	 * and the new prefix resulting of a new movement of the computer AI, if
+	 * the game is not ended.
+	 */
+	GameStateDTO getNextState(GameMovementDTO currentMovement);
+	
+	/**
+	 * Returns the probability of winning of player 1.
+	 * @param metrics The metrics of the last movement.
+	 * @return The probability of winning of player 1.
+	 */
+	float getProbability(MetricsDTO metrics);
 }

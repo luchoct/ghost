@@ -11,53 +11,11 @@ import java.util.TreeSet;
  * 
  */
 public class GameStateDTO {
-
-	/**
-	 * The player wins: there are only word in the dictionary with one letter more
-	 * than the prefix made. The new prefix contains the word made by the computer.
-	 * Metrics are provided.
-	 */
-	public static final Integer PLAYER_WINS_ONLY_ONE_CHARACTER_LEFT = Integer
-			.valueOf(-2);
-
-	/**
-	 * The player has got a lot of probabilities to win (he will win if he don't
-	 * make a wrong prefix). The new prefix contains the movement of the computer.
-	 * Metrics are provided.
-	 */
-	public static final Integer PLAYER_WILL_PROBABLY_WIN = Integer
-			.valueOf(-1);
-
-	/**
-	 * The player may win: there are inputs that give the victory to him. The new
-	 * prefix contains the movement of the computer. Metrics are provided.
-	 */
-	public static final Integer PLAYER_MAY_WIN = Integer.valueOf(0);
-
-	/**
-	 * The player will lost if the other player knows the dictionary (there is no
-	 * possibility to win if the other player knows the dictionary). The new
-	 * prefix contains the movement of the computer. Metrics are provided.
-	 */
-	public static final Integer PLAYER_WILL_LOST = Integer
-			.valueOf(1);
-	/**
-	 * The player has made an wrong prefix. The new prefix contains the wrong
-	 * prefix made by the player. No metrics are provided.
-	 */
-	public static final Integer PLAYER_LOST_WRONG_PREFIX = Integer
-			.valueOf(2);
-	/**
-	 * The player has completed a word. The new prefix contains the whole word
-	 * made by the player. No metrics are provided.
-	 */
-	public static final Integer PLAYER_LOST_WORD_COMPLETED = Integer
-			.valueOf(3);
-
+  
 	/**
 	 * Rating of the previous movement.
 	 */
-	private Integer rating;
+	private GameRating rating;
 
 	/**
 	 * New prefix made.
@@ -93,12 +51,8 @@ public class GameStateDTO {
 	/**
 	 * It returns the rating of the previous movement.
 	 * @return the rating
-	 * @see GameStateDTO.PLAYER_WINS_ONLY_ONE_CHARACTER_LEFT
-	 * @see GameStateDTO.PLAYER_WILL_LOST
-	 * @see GameStateDTO.PLAYER_LOST_WRONG_PREFIX
-	 * @see GameStateDTO.PLAYER_LOST_WORD_COMPLETED
 	 */
-	public final Integer getRating() {
+	public final GameRating getRating() {
 		return rating;
 	}
 
@@ -106,7 +60,7 @@ public class GameStateDTO {
 	 * It sets the rating of the previous movement.
 	 * @param rating the rating to set
 	 */
-	public final void setRating(final Integer rating) {
+	public final void setRating(final GameRating rating) {
 		this.rating = rating;
 	}
 

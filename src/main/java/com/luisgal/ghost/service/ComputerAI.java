@@ -1,16 +1,23 @@
-/**
- * 
- */
-package com.luisgal.ghost.facade;
+package com.luisgal.ghost.service;
+
+import java.util.SortedSet;
+import java.util.TreeMap;
 
 import com.luisgal.ghost.dto.GameMovementDTO;
 import com.luisgal.ghost.dto.GameStateDTO;
 
 /**
+ * The computer AI for the player 2.
  * @author Luis
  *
  */
-public interface IGhostFacade {
+public interface ComputerAI {
+	
+	/**
+	 * It sets the dictionary.
+	 * @param dictionary The dictionary to set.
+	 */
+	void setDictionary(TreeMap<String, SortedSet<String>> dictionary); 
 
 	/**
 	 * Taking the dictionary and the current movement, it returns the next state 

@@ -3,10 +3,12 @@
  */
 package com.luisgal.ghost.util;
 
+import static org.junit.Assert.assertArrayEquals;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import static org.junit.Assert.*;
+
 import org.junit.Test;
 
 /**

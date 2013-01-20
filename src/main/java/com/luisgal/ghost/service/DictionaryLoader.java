@@ -9,7 +9,7 @@ import java.util.TreeMap;
  * @author Luis
  * 
  */
-public interface IDictionaryLoader {
+public interface DictionaryLoader {
 
 	/**
    * The dictionary is loaded from a file, where there is a word in each line.

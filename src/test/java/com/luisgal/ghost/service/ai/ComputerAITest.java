@@ -16,6 +16,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.luisgal.ghost.dto.GameMovementDTO;
+import com.luisgal.ghost.dto.GameRating;
 import com.luisgal.ghost.dto.GameStateDTO;
 import com.luisgal.ghost.service.DictionaryFileLoaderService;
 import com.luisgal.ghost.test.BaseServiceTest;
@@ -80,7 +81,7 @@ public class ComputerAITest extends BaseServiceTest {
 		assertTrue("New prefix unexpected",
 				"untagged".equals(newState.getNewPrefix()));
 		assertEquals("Rating unexpected",
-				GameStateDTO.PLAYER_WINS_ONLY_ONE_CHARACTER_LEFT, newState.getRating());
+				GameRating.PLAYER_WINS_ONLY_ONE_CHARACTER_LEFT, newState.getRating());
 		assertArrayEquals("Suffixes unexpected", suffixes, newState.getSuffixes()
 				.toArray());
 		assertNotNull("Metrics expected", newState.getMetrics());
@@ -122,7 +123,7 @@ public class ComputerAITest extends BaseServiceTest {
 		GameStateDTO newState = computerAIService.getNextState(movement);
 		assertTrue("New prefix unexpected",
 				"untidi".equals(newState.getNewPrefix()));
-		assertEquals("Rating unexpected", GameStateDTO.PLAYER_WILL_PROBABLY_WIN,
+		assertEquals("Rating unexpected", GameRating.PLAYER_WILL_PROBABLY_WIN,
 				newState.getRating());
 		assertArrayEquals("Suffixes unexpected", suffixes, newState.getSuffixes()
 				.toArray());
@@ -165,7 +166,7 @@ public class ComputerAITest extends BaseServiceTest {
 		GameStateDTO newState = computerAIService.getNextState(movement);
 		assertTrue("New prefix unexpected",
 				"untime".equals(newState.getNewPrefix()));
-		assertEquals("Rating unexpected", GameStateDTO.PLAYER_MAY_WIN,
+		assertEquals("Rating unexpected", GameRating.PLAYER_MAY_WIN,
 				newState.getRating());
 		assertArrayEquals("Suffixes unexpected", suffixes, newState.getSuffixes()
 				.toArray());
@@ -203,7 +204,7 @@ public class ComputerAITest extends BaseServiceTest {
 				"allegi".equals(newState.getNewPrefix())
 						|| "allego".equals(newState.getNewPrefix())
 						|| "allegr".equals(newState.getNewPrefix()));
-		assertEquals("Rating unexpected", GameStateDTO.PLAYER_MAY_WIN,
+		assertEquals("Rating unexpected", GameRating.PLAYER_MAY_WIN,
 				newState.getRating());
 		assertArrayEquals("Suffixes unexpected", suffixes2, newState.getSuffixes()
 				.toArray());
@@ -247,7 +248,7 @@ public class ComputerAITest extends BaseServiceTest {
 				"New prefix unexpected",
 				"untwin".equals(newState.getNewPrefix())
 						|| "untwis".equals(newState.getNewPrefix()));
-		assertEquals("Rating unexpected", GameStateDTO.PLAYER_WILL_LOST,
+		assertEquals("Rating unexpected", GameRating.PLAYER_WILL_LOST,
 				newState.getRating());
 		assertArrayEquals("Suffixes unexpected", suffixes, newState.getSuffixes()
 				.toArray());
@@ -274,7 +275,7 @@ public class ComputerAITest extends BaseServiceTest {
 		newState = computerAIService.getNextState(movement);
 		assertTrue("New prefix unexpected",
 				"unthri".equals(newState.getNewPrefix()));
-		assertEquals("Rating unexpected", GameStateDTO.PLAYER_WILL_LOST,
+		assertEquals("Rating unexpected", GameRating.PLAYER_WILL_LOST,
 				newState.getRating());
 		assertArrayEquals("Suffixes unexpected", suffixes2, newState.getSuffixes()
 				.toArray());
@@ -312,7 +313,7 @@ public class ComputerAITest extends BaseServiceTest {
 		GameStateDTO newState = computerAIService.getNextState(movement);
 		assertTrue("New prefix unexpected",
 				"untwist".equals(newState.getNewPrefix()));
-		assertEquals("Rating unexpected", GameStateDTO.PLAYER_LOST_WORD_COMPLETED,
+		assertEquals("Rating unexpected", GameRating.PLAYER_LOST_WORD_COMPLETED,
 				newState.getRating());
 		assertArrayEquals("Suffixes unexpected", suffixes, newState.getSuffixes()
 				.toArray());
@@ -341,7 +342,7 @@ public class ComputerAITest extends BaseServiceTest {
 		GameStateDTO newState = computerAIService.getNextState(movement);
 		assertTrue("New prefix unexpected",
 				"untwino".equals(newState.getNewPrefix()));
-		assertEquals("Rating unexpected", GameStateDTO.PLAYER_LOST_WRONG_PREFIX,
+		assertEquals("Rating unexpected", GameRating.PLAYER_LOST_WRONG_PREFIX,
 				newState.getRating());
 		assertTrue("Suffixes unexpected", newState.getSuffixes().isEmpty());
 		assertNull("Metrics unexpected", newState.getMetrics());

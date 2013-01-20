@@ -3,6 +3,7 @@
  */
 package com.luisgal.ghost.dto;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.SortedSet;
@@ -10,17 +11,19 @@ import java.util.TreeSet;
 
 /**
  * @author Luis
- *
+ * These are the metrics that player 2 calculates.
  */
-public class MetricsDTO {
+public class MetricsDTO implements Serializable {
 
-	/**
-	 * Loser reachable suffixes (they don't start with other suffixes).
+	private static final long serialVersionUID = -2412025865153006L;
+
+  /**
+	 * Loser reachable suffixes for next player (they don't start with other suffixes).
 	 */
 	private SortedSet<String> loserSuffixes = new TreeSet<String>();
 
 	/**
-	 * Winner reachable suffixes (they don't start with other suffixes).
+	 * Winner reachable suffixes for next player (they don't start with other suffixes).
 	 */
 	private SortedSet<String> winnerSuffixes = new TreeSet<String>();
 
@@ -42,7 +45,7 @@ public class MetricsDTO {
 	 * 
 	 * @return The loser reachable suffixes.
 	 */
-	public final SortedSet<String> getLoserSuffixes() {
+	public SortedSet<String> getLoserSuffixes() {
 		return loserSuffixes;
 	}
 
@@ -52,7 +55,7 @@ public class MetricsDTO {
 	 * 
 	 * @return The winner reachable suffixes.
 	 */
-	public final SortedSet<String> getWinnerSuffixes() {
+	public SortedSet<String> getWinnerSuffixes() {
 		return winnerSuffixes;
 	}
 
@@ -62,7 +65,7 @@ public class MetricsDTO {
 	 * player).
 	 * @return The winner inputs.
 	 */
-	public final List<Character> getWinnerInputs() {
+	public List<Character> getWinnerInputs() {
 		return winnerInputs;
 	}
 
@@ -72,9 +75,7 @@ public class MetricsDTO {
 	 * player).
 	 * @return The loser inputs.
 	 */
-	public final List<Character> getLoserInputs() {
+	public List<Character> getLoserInputs() {
 		return loserInputs;
 	}
-
-
 }

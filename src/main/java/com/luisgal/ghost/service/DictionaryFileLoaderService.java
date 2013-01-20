@@ -21,7 +21,7 @@ import com.luisgal.ghost.util.NumberUtils;
  * @author Luis
  * 
  */
-public class DictionaryFileLoaderService implements IDictionaryLoader {
+public class DictionaryFileLoaderService implements DictionaryLoader {
 
   /**
    * The logger of the class.

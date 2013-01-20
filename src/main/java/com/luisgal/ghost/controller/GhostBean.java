@@ -5,8 +5,10 @@ import javax.faces.event.ActionEvent;
 import org.apache.log4j.Logger;
 
 import com.luisgal.ghost.dto.GameMovementDTO;
+import com.luisgal.ghost.dto.GameRating;
 import com.luisgal.ghost.dto.GameStateDTO;
-import com.luisgal.ghost.facade.IGhostFacade;
+import com.luisgal.ghost.dto.MetricsDTO;
+import com.luisgal.ghost.facade.GhostFacade;
 import com.luisgal.ghost.model.GhostModel;
 import com.luisgal.ghost.service.ai.ComputerAIService;
 
@@ -24,7 +26,7 @@ public class GhostBean {
 	/**
 	 * The facade of the business tier.
 	 */
-	private IGhostFacade facade;
+	private GhostFacade facade;
 
 	/**
 	 * The model with the information from the game.
@@ -40,7 +42,7 @@ public class GhostBean {
 	 * It returns the facade of the business tier.
 	 * @return The facade of the business tier.
 	 */
-	public final IGhostFacade getFacade() {
+	public final GhostFacade getFacade() {
 		return facade;
 	}
 
@@ -48,7 +50,7 @@ public class GhostBean {
 	 * It sets the facade of the business tier.
 	 * @param newFacade The facade of the business tier to set.
 	 */
-	public final void setFacade(final IGhostFacade newFacade) {
+	public final void setFacade(final GhostFacade newFacade) {
 		this.facade = newFacade;
 	}
 
@@ -111,20 +113,20 @@ public class GhostBean {
 	 */
 	public final void playerInput(final ActionEvent event) {
 		
-		String newInput = (String) model.getNewInput();
+		final String newInput = (String) model.getNewInput();
 		if (LOGGER.isDebugEnabled()) {
 			LOGGER.debug("Player 1 input " + newInput);
 		}
 		
 		assert ((newInput != null) && (newInput.length() == 1));
-		GameMovementDTO newMovement = new GameMovementDTO();
+		final GameMovementDTO newMovement = new GameMovementDTO();
 		newMovement.setNewInput(Character.valueOf(newInput.charAt(0)));
 		newMovement.setOldPrefix(model.getState().getNewPrefix());
 
-		GameStateDTO newState = facade.getNextState(newMovement);
+		final GameStateDTO newState = facade.getNextState(newMovement);
 		model.setState(newState);
-		if ((!GameStateDTO.PLAYER_LOST_WORD_COMPLETED.equals(newState.getRating()))
-				&& (!GameStateDTO.PLAYER_LOST_WRONG_PREFIX.equals(newState.getRating()))) {
+		if (!GameRating.PLAYER_LOST_WORD_COMPLETED.equals(newState.getRating())
+				&& !GameRating.PLAYER_LOST_WRONG_PREFIX.equals(newState.getRating())) {
 			// The last input is the last character of the new prefix.
 			model.setLastInput(model.getState().getNewPrefix()
 					.substring(model.getState().getNewPrefix().length() - 1));
@@ -133,5 +135,39 @@ public class GhostBean {
 			model.setLastInput(null);
 		}
 		model.setNewInput(null);
+	}
+	
+	/**
+	 * Returns true if the game has finished.
+	 * @return True if the game has finished.
+	 */
+	public boolean isFinished() {
+	  final GameRating rating = model.getState().getRating();
+	  return (GameRating.PLAYER_WINS_ONLY_ONE_CHARACTER_LEFT.equals(rating) 
+	      || GameRating.PLAYER_LOST_WRONG_PREFIX.equals(rating) 
+	      || GameRating.PLAYER_LOST_WORD_COMPLETED.equals(rating));
+	}
+	
+	/**
+	 * It returns the probability of player 1 of winning the game, if the game hasn´t finished yet.
+	 * @return The probability
+	 */
+	public float getProbability() {
+	  final MetricsDTO metrics = model.getState().getMetrics();
+	  
+	  if (metrics == null) {
+	    //The first movement has not been done yet.
+	    return 50f;
+	  } else {
+	    final GameRating rating = model.getState().getRating();
+	    if (GameRating.PLAYER_WINS_ONLY_ONE_CHARACTER_LEFT.equals(rating)) {
+	      return 100f;
+	    } else if (GameRating.PLAYER_LOST_WRONG_PREFIX.equals(rating) 
+        || GameRating.PLAYER_LOST_WORD_COMPLETED.equals(rating)) {
+	      return 0f;
+	    } else {
+	      return facade.getProbability(model.getState().getMetrics());
+	    }
+	  }
 	}
 }

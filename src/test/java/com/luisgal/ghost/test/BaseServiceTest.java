@@ -3,6 +3,7 @@
  */
 package com.luisgal.ghost.test;
 
+import org.junit.Ignore;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -14,7 +15,8 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
  *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:/ApplicationContextTest.xml"})
+@ContextConfiguration(locations = {"classpath:/ApplicationContext.xml"})
 @TestExecutionListeners(DependencyInjectionTestExecutionListener.class)
-public class BaseServiceTest {
+@Ignore
+public abstract class BaseServiceTest {
 }

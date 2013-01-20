@@ -11,7 +11,8 @@ import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.luisgal.ghost.util.NumberUtils;
 
@@ -26,7 +27,7 @@ public class DictionaryFileLoaderService implements DictionaryLoader {
   /**
    * The logger of the class.
    */
-  static final Logger LOGGER = Logger
+  static final Logger LOGGER = LoggerFactory
       .getLogger(DictionaryFileLoaderService.class);
 
   /**
@@ -56,9 +57,7 @@ public class DictionaryFileLoaderService implements DictionaryLoader {
    * {@inheritDoc}
    */
   public final TreeMap<String, SortedSet<String>> loadDictionnary() {
-    if (LOGGER.isDebugEnabled()) {
-      LOGGER.debug("Opening dictionary file " + dictionaryFilePath);
-    }
+    LOGGER.debug("Opening dictionary file {}", dictionaryFilePath);
     TreeMap<String, SortedSet<String>> dictionary = new TreeMap<String, SortedSet<String>>();
     try {
       BufferedReader reader = new BufferedReader(new FileReader(this.getClass()
@@ -78,12 +77,11 @@ public class DictionaryFileLoaderService implements DictionaryLoader {
         reader.close();
       }
     } catch (IOException ex) {
-      LOGGER.error("Exception opening file " + dictionaryFilePath, ex);
+      LOGGER.error("Exception opening file {}", dictionaryFilePath, ex);
     }
     if (LOGGER.isDebugEnabled()) {
       for (String prefix : dictionary.keySet()) {
-        LOGGER.debug("Dictionary prefix <" + prefix + "> suffixes <"
-            + dictionary.get(prefix) + ">");
+        LOGGER.debug("Dictionary prefix <{}> suffixes <{}>", prefix, dictionary.get(prefix));
       }
     }
     return dictionary;
@@ -98,9 +96,7 @@ public class DictionaryFileLoaderService implements DictionaryLoader {
    */
   private void appendWord(final Map<String, SortedSet<String>> dictionary,
       final String word) {
-    if (LOGGER.isTraceEnabled()) {
-      LOGGER.trace("Appending word " + word + " to dictionary");
-    }
+    LOGGER.trace("Appending word {} to dictionary", word);
     char[] letters = word.toCharArray();
     /*
      * It creates the keys and the values of the map. If the word has got an odd
@@ -120,10 +116,7 @@ public class DictionaryFileLoaderService implements DictionaryLoader {
          */
         String prefix = word.substring(0, i + 1);
         String suffix = word.substring(i + 1);
-        if (LOGGER.isTraceEnabled()) {
-          LOGGER.trace("Appending (prefix,suffix) = (" + prefix + "," + suffix
-              + ")");
-        }
+        LOGGER.trace("Appending (prefix,suffix) = ({},{})", prefix, suffix);
         SortedSet<String> suffixes = dictionary.get(prefix);
         // Maybe, it's the first word with that prefix.
         if (suffixes == null) {

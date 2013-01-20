@@ -12,7 +12,8 @@ import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
@@ -37,7 +38,7 @@ public class ComputerAIService implements ComputerAI {
   /**
    * The logger of the class.
    */
-  static final Logger LOGGER = Logger.getLogger(ComputerAIService.class);
+  static final Logger LOGGER = LoggerFactory.getLogger(ComputerAIService.class);
 
   /**
    * Structure with the contents of the dictionary. The keys are prefixes (with
@@ -83,14 +84,7 @@ public class ComputerAIService implements ComputerAI {
     // It contains an empty set.
     assert (newState.getSuffixes() != null);
 
-    if (LOGGER.isDebugEnabled()) {
-      final StringBuilder sbMessage = new StringBuilder(100);
-      sbMessage.append("Calculing next state from prefix <");
-      sbMessage.append(currentMovement.getOldPrefix());
-      sbMessage.append("> with input <");
-      sbMessage.append(currentMovement.getNewInput());
-      LOGGER.debug(sbMessage.toString());
-    }
+    LOGGER.debug("Calculing next state from prefix <{}> with input <{}>", currentMovement.getOldPrefix(), currentMovement.getNewInput());
 
     // The new prefix will be the joint of the ancient prefix and the input.
     final String newPrefix = (new StringBuilder(currentMovement.getOldPrefix()))
@@ -190,17 +184,7 @@ public class ComputerAIService implements ComputerAI {
        */
       newState.getSuffixes().addAll(suffixes);
     }
-    if (LOGGER.isDebugEnabled()) {
-      final StringBuilder sbMessage = new StringBuilder(100);
-      sbMessage.append("New state rating <");
-      sbMessage.append(newState.getRating());
-      sbMessage.append(">, new prefix <");
-      sbMessage.append(newState.getNewPrefix());
-      sbMessage.append(">, suffixes <");
-      sbMessage.append(newState.getSuffixes());
-      sbMessage.append(">");
-      LOGGER.debug(sbMessage.toString());
-    }
+    LOGGER.debug("New state rating <{}>, new prefix <{}>, suffixes <{}>", newState.getRating(), newState.getNewPrefix(), newState.getSuffixes());
     assert (newState.getNewPrefix() != null);
     return newState;
   }
@@ -231,9 +215,7 @@ public class ComputerAIService implements ComputerAI {
      * word 'abduced').
      */
     final SortedSet<String> reachableSuffixes = getReachableSuffixes(suffixes);
-    if (LOGGER.isTraceEnabled()) {
-      LOGGER.trace("Reachable suffixes " + reachableSuffixes);
-    }
+    LOGGER.trace("Reachable suffixes {}", reachableSuffixes);
 
     /*
      * The player 2 lost if there are only one character reachable suffixes.
@@ -283,23 +265,8 @@ public class ComputerAIService implements ComputerAI {
         getIntermediateInputs(metrics.getWinnerSuffixes(),
             metrics.getLoserSuffixes()));
 
-    if (LOGGER.isDebugEnabled()) {
-      final StringBuilder sbMessage = new StringBuilder(200);
-      sbMessage.append("metrics of suffixes obtained: only 1 character <");
-      sbMessage.append(metrics.isOnlyOneCharacterSuffixes());
-      sbMessage.append(">, even reachable <");
-      sbMessage.append(metrics.getWinnerSuffixes());
-      sbMessage.append(">, odd reachable <");
-      sbMessage.append(metrics.getLoserSuffixes());
-      sbMessage.append(">, winner inputs <");
-      sbMessage.append(metrics.getWinnerInputs());
-      sbMessage.append(">, loser inputs <");
-      sbMessage.append(metrics.getLoserInputs());
-      sbMessage.append(">, intermediate inputs <");
-      sbMessage.append(metrics.getIntermediateInputs());
-      sbMessage.append(">");
-      LOGGER.debug(sbMessage.toString());
-    }
+    LOGGER.debug("metrics of suffixes obtained: only 1 character <{}>, even reachable <{}>, odd reachable <{}>, winner inputs <{}>, loser inputs <{}>, intermediate inputs <{}>", 
+        metrics.isOnlyOneCharacterSuffixes(), metrics.getWinnerSuffixes(), metrics.getLoserSuffixes(), metrics.getWinnerInputs(), metrics.getLoserInputs(), metrics.getIntermediateInputs());
     return metrics;
   }
 

@@ -2,8 +2,8 @@ package com.luisgal.ghost.controller;
 
 import javax.faces.event.ActionEvent;
 
-import org.apache.log4j.Logger;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.luisgal.ghost.dto.GameMovementDTO;
 import com.luisgal.ghost.dto.GameRating;
 import com.luisgal.ghost.dto.GameStateDTO;
@@ -21,7 +21,7 @@ public class GhostBean {
 	/**
 	 * The logger of the class.
 	 */
-	static final Logger LOGGER = Logger.getLogger(ComputerAIService.class);
+	static final Logger LOGGER = LoggerFactory.getLogger(ComputerAIService.class);
 
 	/**
 	 * The facade of the business tier.
@@ -114,9 +114,7 @@ public class GhostBean {
 	public final void playerInput(final ActionEvent event) {
 		
 		final String newInput = (String) model.getNewInput();
-		if (LOGGER.isDebugEnabled()) {
-			LOGGER.debug("Player 1 input " + newInput);
-		}
+		LOGGER.debug("Player 1 input {}" + newInput);
 		
 		assert ((newInput != null) && (newInput.length() == 1));
 		final GameMovementDTO newMovement = new GameMovementDTO();

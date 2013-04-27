@@ -36,7 +36,7 @@ public class GameStateDTO {
 	 * It returns new prefix made.
 	 * @return the prefix
 	 */
-	public final String getNewPrefix() {
+	public String getNewPrefix() {
 		return newPrefix;
 	}
 
@@ -44,7 +44,7 @@ public class GameStateDTO {
 	 * It sets the new prefix made.
 	 * @param newPrefix the prefix to set
 	 */
-	public final void setNewPrefix(final String newPrefix) {
+	public void setNewPrefix(final String newPrefix) {
 		this.newPrefix = newPrefix;
 	}
 
@@ -52,7 +52,7 @@ public class GameStateDTO {
 	 * It returns the rating of the previous movement.
 	 * @return the rating
 	 */
-	public final GameRating getRating() {
+	public GameRating getRating() {
 		return rating;
 	}
 
@@ -60,7 +60,7 @@ public class GameStateDTO {
 	 * It sets the rating of the previous movement.
 	 * @param rating the rating to set
 	 */
-	public final void setRating(final GameRating rating) {
+	public void setRating(final GameRating rating) {
 		this.rating = rating;
 	}
 
@@ -68,7 +68,7 @@ public class GameStateDTO {
 	 * It returns the possible suffixes analyzed for the second player.
 	 * @return The possible suffixes.
 	 */
-	public final SortedSet<String> getSuffixes() {
+	public SortedSet<String> getSuffixes() {
 		return suffixes;
 	}
 
@@ -76,7 +76,7 @@ public class GameStateDTO {
 	 * It returns the metrics of the last movement.
 	 * @return the metrics
 	 */
-	public final MetricsDTO getMetrics() {
+	public MetricsDTO getMetrics() {
 		return metrics;
 	}
 
@@ -84,7 +84,7 @@ public class GameStateDTO {
 	 * It sets the metrics of the last movement.
 	 * @param metrics The metrics to set
 	 */
-	public final void setMetrics(final MetricsDTO metrics) {
+	public void setMetrics(final MetricsDTO metrics) {
 		this.metrics = metrics;
 	}
 }

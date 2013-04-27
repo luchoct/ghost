@@ -30,7 +30,7 @@ public class GhostModel {
 	 * It returns the current state of the game.
 	 * @return The state
 	 */
-	public final GameStateDTO getState() {
+	public GameStateDTO getState() {
 		return state;
 	}
 
@@ -38,7 +38,7 @@ public class GhostModel {
 	 * It sets the current state of the game.
 	 * @param state The state to set
 	 */
-	public final void setState(final GameStateDTO state) {
+	public void setState(final GameStateDTO state) {
 		this.state = state;
 	}
 
@@ -46,7 +46,7 @@ public class GhostModel {
 	 * It returns the last input of the second player.
 	 * @return The last input of the second player.
 	 */
-	public final String getLastInput() {
+	public String getLastInput() {
 		return lastInput;
 	}
 
@@ -54,7 +54,7 @@ public class GhostModel {
 	 * It sets the last input of the second player.
 	 * @param lastInput The last input to set
 	 */
-	public final void setLastInput(final String lastInput) {
+	public void setLastInput(final String lastInput) {
 		this.lastInput = lastInput;
 	}
 
@@ -62,7 +62,7 @@ public class GhostModel {
 	 * It returns the new input of the first player.
 	 * @return The new input of the first player.
 	 */
-	public final String getNewInput() {
+	public String getNewInput() {
 		return newInput;
 	}
 
@@ -70,7 +70,7 @@ public class GhostModel {
 	 * It sets the new input of the first player.
 	 * @param newInput The new input to set
 	 */
-	public final void setNewInput(final String newInput) {
+	public void setNewInput(final String newInput) {
 		this.newInput = newInput;
 	}
 	

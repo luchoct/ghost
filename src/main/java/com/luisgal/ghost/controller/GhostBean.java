@@ -123,14 +123,14 @@ public class GhostBean {
 
 		final GameStateDTO newState = facade.getNextState(newMovement);
 		model.setState(newState);
-		if (!GameRating.PLAYER_LOST_WORD_COMPLETED.equals(newState.getRating())
-				&& !GameRating.PLAYER_LOST_WRONG_PREFIX.equals(newState.getRating())) {
-			// The last input is the last character of the new prefix.
-			model.setLastInput(model.getState().getNewPrefix()
-					.substring(model.getState().getNewPrefix().length() - 1));
+		if (GameRating.PLAYER_LOST_WORD_COMPLETED.equals(newState.getRating())
+				|| GameRating.PLAYER_LOST_WRONG_PREFIX.equals(newState.getRating())) {
+      // The second player doesn't move when the first player lost.
+      model.setLastInput(null);
 		} else {
-			// The second player doesn't move when the first player lost.
-			model.setLastInput(null);
+      // The last input is the last character of the new prefix.
+      model.setLastInput(model.getState().getNewPrefix()
+          .substring(model.getState().getNewPrefix().length() - 1));
 		}
 		model.setNewInput(null);
 	}

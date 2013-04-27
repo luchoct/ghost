@@ -27,7 +27,7 @@ public class DictionaryFileLoaderService implements DictionaryLoader {
   /**
    * The logger of the class.
    */
-  static final Logger LOGGER = LoggerFactory
+  private static final Logger LOGGER = LoggerFactory
       .getLogger(DictionaryFileLoaderService.class);
 
   /**

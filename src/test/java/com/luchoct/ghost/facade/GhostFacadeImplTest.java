@@ -22,9 +22,9 @@ import com.luchoct.ghost.dto.GameStateDTO;
 import com.luchoct.ghost.dto.MetricsDTO;
 import com.luchoct.ghost.service.ComputerAI;
 import com.luchoct.ghost.service.ProbabilityCalculator;
-import com.luchoct.ghost.test.BaseServiceTest;
+import com.luchoct.ghost.test.SpringTest;
 
-public class GhostFacadeImplTest extends BaseServiceTest {
+public class GhostFacadeImplTest extends SpringTest {
   
   @Before 
   public void initMocks() {

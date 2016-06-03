@@ -15,13 +15,13 @@ import org.junit.After;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.luchoct.ghost.test.BaseServiceTest;
+import com.luchoct.ghost.test.SpringTest;
 
 /**
  * @author Luis
  * 
  */
-public class DictionaryFileLoaderTest extends BaseServiceTest {
+public class DictionaryFileLoaderTest extends SpringTest {
 
   @Autowired
   /**

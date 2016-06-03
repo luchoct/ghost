@@ -19,13 +19,13 @@ import com.luchoct.ghost.dto.GameMovementDTO;
 import com.luchoct.ghost.dto.GameRating;
 import com.luchoct.ghost.dto.GameStateDTO;
 import com.luchoct.ghost.service.DictionaryFileLoaderService;
-import com.luchoct.ghost.test.BaseServiceTest;
+import com.luchoct.ghost.test.SpringTest;
 
 /**
  * @author Luis
  * 
  */
-public class ComputerAITest extends BaseServiceTest {
+public class ComputerAITest extends SpringTest {
 
 	@Autowired
 	/**

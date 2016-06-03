@@ -16,7 +16,6 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:/ApplicationContext.xml"})
-@TestExecutionListeners(DependencyInjectionTestExecutionListener.class)
 @Ignore
-public abstract class BaseServiceTest {
+public abstract class SpringTest {
 }

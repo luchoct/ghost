@@ -7,13 +7,13 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import com.luchoct.ghost.test.BaseServiceTest;
+import com.luchoct.ghost.test.SpringTest;
 
 /**
  * @author Luis
  *
  */
-public class ConputerMetricsTest extends BaseServiceTest {
+public class ConputerMetricsTest extends SpringTest {
 
 	@Test
 	/**

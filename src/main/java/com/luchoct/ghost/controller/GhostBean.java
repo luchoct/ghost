@@ -115,9 +115,9 @@ public class GhostBean {
 	 * @return The probability
 	 */
 	public final float getProbability() {
-		final MetricsDTO metrics = model.getState().getMetrics();
+		System.out.println("rating " + model.getState().getRating());
 
-		if (metrics == null) {
+		if (model.getState().getRating() == null) {
 			//The first movement has not been done yet.
 			return 50f;
 		} else {

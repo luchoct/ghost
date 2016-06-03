@@ -16,7 +16,10 @@ Original requirements were packaging in a WAR file to run against Tomcat 5.5.x o
 As an optional extra you can attempt to answer this question: if the human starts the game with 'n', and the computer plays according to the strategy above, what unique word will complete the human's victory?
 
 #Changelog
-* 2013-04-27 Version 1.0 Initial Release
+* 2012-11-27 Version 1.0 Initial skeleton
+* 2012-12-27 Version 1.1 Added site report
+* 2012-12-01 Version 1.2 Initial Release
+* 2012-12-01 Version 1.3 Lombok, java 8 and bugfixing.
 
 #Areas of improvement
 This software can be optimized in several ways:

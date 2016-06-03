@@ -39,7 +39,7 @@
         <level value="ERROR" />
     </logger>
 
-    <logger name="com.luisgal.ghost">
+    <logger name="com.luchoct.ghost">
         <level value="INFO" />
     </logger>
 

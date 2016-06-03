@@ -7,9 +7,9 @@
 		http://www.springframework.org/schema/context
     http://www.springframework.org/schema/context/spring-context-3.0.xsd">
     
-	<context:component-scan base-package="com.luisgal.ghost" />
+	<context:component-scan base-package="com.luchoct.ghost" />
 
-	<bean id="dictionaryFileLoader" class="com.luisgal.ghost.service.DictionaryFileLoaderService">
+	<bean id="dictionaryFileLoader" class="com.luchoct.ghost.service.DictionaryFileLoaderService">
 		<property name="dictionaryFilePath" value="/word.lst" />
 	</bean>
 

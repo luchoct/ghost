@@ -4,7 +4,7 @@
  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_1_2.xsd">
  <managed-bean>
   <managed-bean-name>ghostBean</managed-bean-name>
-  <managed-bean-class>com.luisgal.ghost.controller.GhostBean</managed-bean-class>
+  <managed-bean-class>com.luchoct.ghost.controller.GhostBean</managed-bean-class>
   <managed-bean-scope>request</managed-bean-scope>
   <managed-property>
    <property-name>facade</property-name>
@@ -17,7 +17,7 @@
  </managed-bean>
  <managed-bean>
   <managed-bean-name>ghostModel</managed-bean-name>
-  <managed-bean-class>com.luisgal.ghost.model.GhostModel</managed-bean-class>
+  <managed-bean-class>com.luchoct.ghost.model.GhostModel</managed-bean-class>
   <managed-bean-scope>session</managed-bean-scope>
  </managed-bean>
  <navigation-rule>
@@ -33,7 +33,7 @@
    <supported-locale>en</supported-locale>
   </locale-config>
   <resource-bundle>
-   <base-name>com.luisgal.ghost.messages.MainMessages</base-name>
+   <base-name>com.luchoct.ghost.messages.MainMessages</base-name>
    <var>msg</var>
   </resource-bundle>
   <el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver</el-resolver>

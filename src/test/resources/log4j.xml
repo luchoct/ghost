@@ -39,11 +39,11 @@
         <level value="ERROR" />
     </logger>
 
-    <logger name="com.luisgal.ghost">
+    <logger name="com.luchoct.ghost">
         <level value="INFO" />
     </logger>
 
-    <logger name="com.luisgal.ghost.service.DictionaryFileLoaderService">
+    <logger name="com.luchoct.ghost.service.DictionaryFileLoaderService">
         <level value="INFO" />
     </logger>
 

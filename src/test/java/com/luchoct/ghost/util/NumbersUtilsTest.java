@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.luchoct.ghost.util;
 
@@ -10,10 +10,9 @@ import org.junit.Test;
 
 /**
  * @author Luis
- *
  */
 public class NumbersUtilsTest {
-	
+
 	@Test
 	/**
 	 * It tests the initialization of the service
@@ -23,6 +22,5 @@ public class NumbersUtilsTest {
 		assertFalse("Espected odd", NumberUtils.isEven(5));
 	}
 
-	
 
 }

@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.luchoct.ghost.test;
 
@@ -12,7 +12,6 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 
 /**
  * @author Luis
- *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:/ApplicationContext.xml"})

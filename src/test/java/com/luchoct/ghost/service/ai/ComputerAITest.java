@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.luchoct.ghost.service.ai;
 
@@ -23,7 +23,6 @@ import com.luchoct.ghost.test.SpringTest;
 
 /**
  * @author Luis
- * 
  */
 public class ComputerAITest extends SpringTest {
 
@@ -65,8 +64,7 @@ public class ComputerAITest extends SpringTest {
 		 */
 		dictionaryFileLoaderService.setDictionaryFilePath(File.separator
 				+ "dictionaries" + File.separator + "word.lst");
-		computerAIService.setDictionary(dictionaryFileLoaderService
-				.loadDictionnary());
+		computerAIService.setDictionary(dictionaryFileLoaderService.loadDictionnary());
 		GameMovementDTO movement = new GameMovementDTO();
 
 		// <untagge> suffixes <[d]>
@@ -78,21 +76,16 @@ public class ComputerAITest extends SpringTest {
 		Character[] loserInputs = {'d'};
 		String[] loserSuffixes = {"d"};
 		GameStateDTO newState = computerAIService.getNextState(movement);
-		assertTrue("New prefix unexpected",
-				"untagged".equals(newState.getNewPrefix()));
-		assertEquals("Rating unexpected",
-				GameRating.PLAYER_WINS_ONLY_ONE_CHARACTER_LEFT, newState.getRating());
-		assertArrayEquals("Suffixes unexpected", suffixes, newState.getSuffixes()
-				.toArray());
+		assertTrue("New prefix unexpected", "untagged".equals(newState.getNewPrefix()));
+		assertEquals("Rating unexpected", GameRating.PLAYER_WINS_ONLY_ONE_CHARACTER_LEFT, newState.getRating());
+		assertArrayEquals("Suffixes unexpected", suffixes, newState.getSuffixes().toArray());
 		assertNotNull("Metrics expected", newState.getMetrics());
-		assertArrayEquals("Winner inputs unexpected", winnerInputs, newState
-				.getMetrics().getWinnerInputs().toArray());
-		assertArrayEquals("Winner suffixes unexpected", winnerSuffixes, newState
-				.getMetrics().getWinnerSuffixes().toArray());
-		assertArrayEquals("Loser inputs unexpected", loserInputs, newState
-				.getMetrics().getLoserInputs().toArray());
-		assertArrayEquals("Loser suffixes unexpected", loserSuffixes, newState
-				.getMetrics().getLoserSuffixes().toArray());
+		assertArrayEquals("Winner inputs unexpected", winnerInputs, newState.getMetrics().getWinnerInputs().toArray());
+		assertArrayEquals("Winner suffixes unexpected",
+				winnerSuffixes, newState.getMetrics().getWinnerSuffixes().toArray());
+		assertArrayEquals("Loser inputs unexpected", loserInputs, newState.getMetrics().getLoserInputs().toArray());
+		assertArrayEquals("Loser suffixes unexpected",
+				loserSuffixes, newState.getMetrics().getLoserSuffixes().toArray());
 	}
 
 	@Test
@@ -105,8 +98,7 @@ public class ComputerAITest extends SpringTest {
 		 */
 		dictionaryFileLoaderService.setDictionaryFilePath(File.separator
 				+ "dictionaries" + File.separator + "word.lst");
-		computerAIService.setDictionary(dictionaryFileLoaderService
-				.loadDictionnary());
+		computerAIService.setDictionary(dictionaryFileLoaderService.loadDictionnary());
 
 		GameMovementDTO movement = new GameMovementDTO();
 
@@ -114,28 +106,23 @@ public class ComputerAITest extends SpringTest {
 		// idy, idying]>
 		movement.setOldPrefix("unti");
 		movement.setNewInput('d');
-		String[] suffixes = {"ied","ier","ies","iest","ily","iness","inesses","y",
+		String[] suffixes = {"ied", "ier", "ies", "iest", "ily", "iness", "inesses", "y",
 				"ying"};
 		Character[] winnerInputs = {};
 		String[] winnerSuffixes = {};
-		Character[] loserInputs = {'i','y'};
-		String[] loserSuffixes = {"ied","ier","ies","ily","iness","y"};
+		Character[] loserInputs = {'i', 'y'};
+		String[] loserSuffixes = {"ied", "ier", "ies", "ily", "iness", "y"};
 		GameStateDTO newState = computerAIService.getNextState(movement);
-		assertTrue("New prefix unexpected",
-				"untidi".equals(newState.getNewPrefix()));
-		assertEquals("Rating unexpected", GameRating.PLAYER_WILL_PROBABLY_WIN,
-				newState.getRating());
-		assertArrayEquals("Suffixes unexpected", suffixes, newState.getSuffixes()
-				.toArray());
+		assertEquals("New prefix unexpected", "untidi", newState.getNewPrefix());
+		assertEquals("Rating unexpected", GameRating.PLAYER_WILL_PROBABLY_WIN, newState.getRating());
+		assertArrayEquals("Suffixes unexpected", suffixes, newState.getSuffixes().toArray());
 		assertNotNull("Metrics expected", newState.getMetrics());
-		assertArrayEquals("Winner inputs unexpected", winnerInputs, newState
-				.getMetrics().getWinnerInputs().toArray());
-		assertArrayEquals("Winner suffixes unexpected", winnerSuffixes, newState
-				.getMetrics().getWinnerSuffixes().toArray());
-		assertArrayEquals("Loser inputs unexpected", loserInputs, newState
-				.getMetrics().getLoserInputs().toArray());
-		assertArrayEquals("Loser suffixes unexpected", loserSuffixes, newState
-				.getMetrics().getLoserSuffixes().toArray());
+		assertArrayEquals("Winner inputs unexpected", winnerInputs, newState.getMetrics().getWinnerInputs().toArray());
+		assertArrayEquals("Winner suffixes unexpected",
+				winnerSuffixes, newState.getMetrics().getWinnerSuffixes().toArray());
+		assertArrayEquals("Loser inputs unexpected", loserInputs, newState.getMetrics().getLoserInputs().toArray());
+		assertArrayEquals("Loser suffixes unexpected",
+				loserSuffixes, newState.getMetrics().getLoserSuffixes().toArray());
 	}
 
 	@Test
@@ -148,8 +135,7 @@ public class ComputerAITest extends SpringTest {
 		 */
 		dictionaryFileLoaderService.setDictionaryFilePath(File.separator
 				+ "dictionaries" + File.separator + "word.lst");
-		computerAIService.setDictionary(dictionaryFileLoaderService
-				.loadDictionnary());
+		computerAIService.setDictionary(dictionaryFileLoaderService.loadDictionnary());
 
 		GameMovementDTO movement = new GameMovementDTO();
 
@@ -157,28 +143,23 @@ public class ComputerAITest extends SpringTest {
 		// imeous]>
 		movement.setOldPrefix("unti");
 		movement.setNewInput('m');
-		String[] suffixes = {"elier","eliest","eliness","elinesses","ely","eous"};
+		String[] suffixes = {"elier", "eliest", "eliness", "elinesses", "ely", "eous"};
 		Character[] winnerInputs = {};
-		String[] winnerSuffixes = {"eliest","eous"};
+		String[] winnerSuffixes = {"eliest", "eous"};
 		Character[] loserInputs = {};
-		String[] loserSuffixes = {"elier","eliness","ely"};
+		String[] loserSuffixes = {"elier", "eliness", "ely"};
 
 		GameStateDTO newState = computerAIService.getNextState(movement);
-		assertTrue("New prefix unexpected",
-				"untime".equals(newState.getNewPrefix()));
-		assertEquals("Rating unexpected", GameRating.PLAYER_MAY_WIN,
-				newState.getRating());
-		assertArrayEquals("Suffixes unexpected", suffixes, newState.getSuffixes()
-				.toArray());
+		assertTrue("New prefix unexpected", "untime".equals(newState.getNewPrefix()));
+		assertEquals("Rating unexpected", GameRating.PLAYER_MAY_WIN, newState.getRating());
+		assertArrayEquals("Suffixes unexpected", suffixes, newState.getSuffixes().toArray());
 		assertNotNull("Metrics expected", newState.getMetrics());
-		assertArrayEquals("Winner inputs unexpected", winnerInputs, newState
-				.getMetrics().getWinnerInputs().toArray());
-		assertArrayEquals("Winner suffixes unexpected", winnerSuffixes, newState
-				.getMetrics().getWinnerSuffixes().toArray());
-		assertArrayEquals("Loser inputs unexpected", loserInputs, newState
-				.getMetrics().getLoserInputs().toArray());
-		assertArrayEquals("Loser suffixes unexpected", loserSuffixes, newState
-				.getMetrics().getLoserSuffixes().toArray());
+		assertArrayEquals("Winner inputs unexpected", winnerInputs, newState.getMetrics().getWinnerInputs().toArray());
+		assertArrayEquals("Winner suffixes unexpected",
+				winnerSuffixes, newState.getMetrics().getWinnerSuffixes().toArray());
+		assertArrayEquals("Loser inputs unexpected", loserInputs, newState.getMetrics().getLoserInputs().toArray());
+		assertArrayEquals("Loser suffixes unexpected",
+				loserSuffixes, newState.getMetrics().getLoserSuffixes().toArray());
 
 		/*
 		 * <alleg> suffixes [ation, ations, e, ed, edly, er, ers, es, iance, iances,
@@ -188,35 +169,30 @@ public class ComputerAITest extends SpringTest {
 		 */
 		movement.setOldPrefix("alle");
 		movement.setNewInput('g');
-		String[] suffixes2 = {"ation","ations","e","ed","edly","er","ers","es",
-				"iance","iances","iant","ing","orical","orically","oricalness",
-				"oricalnesses","ories","orise","orised","orises","orising","orist",
-				"orists","orization","orizations","orize","orized","orizer","orizers",
-				"orizes","orizing","ory","retto","rettos","ro","ros"};
+		String[] suffixes2 = {"ation", "ations", "e", "ed", "edly", "er", "ers", "es", "iance", "iances", "iant", "ing",
+				"orical", "orically", "oricalness", "oricalnesses", "ories", "orise", "orised", "orises", "orising",
+				"orist", "orists", "orization", "orizations", "orize", "orized", "orizer", "orizers", "orizes",
+				"orizing", "ory", "retto", "rettos", "ro", "ros"};
 		Character[] winnerInputs2 = {};
-		String[] winnerSuffixes2 = {"iant","orical","ro"};
-		Character[] loserInputs2 = {'a','e'};
-		String[] loserSuffixes2 = {"ation","e","iance","ing","ories","orise",
-				"orising","orist","orization","orize","orizing","ory","retto"};
+		String[] winnerSuffixes2 = {"iant", "orical", "ro"};
+		Character[] loserInputs2 = {'a', 'e'};
+		String[] loserSuffixes2 = {"ation", "e", "iance", "ing", "ories", "orise", "orising", "orist", "orization",
+				"orize", "orizing", "ory", "retto"};
 		newState = computerAIService.getNextState(movement);
 		assertTrue(
 				"New prefix unexpected",
 				"allegi".equals(newState.getNewPrefix())
 						|| "allego".equals(newState.getNewPrefix())
 						|| "allegr".equals(newState.getNewPrefix()));
-		assertEquals("Rating unexpected", GameRating.PLAYER_MAY_WIN,
-				newState.getRating());
-		assertArrayEquals("Suffixes unexpected", suffixes2, newState.getSuffixes()
-				.toArray());
+		assertEquals("Rating unexpected", GameRating.PLAYER_MAY_WIN, newState.getRating());
+		assertArrayEquals("Suffixes unexpected", suffixes2, newState.getSuffixes().toArray());
 		assertNotNull("Metrics expected", newState.getMetrics());
-		assertArrayEquals("Winner inputs unexpected", winnerInputs2, newState
-				.getMetrics().getWinnerInputs().toArray());
-		assertArrayEquals("Winner suffixes unexpected", winnerSuffixes2, newState
-				.getMetrics().getWinnerSuffixes().toArray());
-		assertArrayEquals("Loser inputs unexpected", loserInputs2, newState
-				.getMetrics().getLoserInputs().toArray());
-		assertArrayEquals("Loser suffixes unexpected", loserSuffixes2, newState
-				.getMetrics().getLoserSuffixes().toArray());
+		assertArrayEquals("Winner inputs unexpected", winnerInputs2, newState.getMetrics().getWinnerInputs().toArray());
+		assertArrayEquals("Winner suffixes unexpected",
+				winnerSuffixes2, newState.getMetrics().getWinnerSuffixes().toArray());
+		assertArrayEquals("Loser inputs unexpected", loserInputs2, newState.getMetrics().getLoserInputs().toArray());
+		assertArrayEquals("Loser suffixes unexpected",
+				loserSuffixes2, newState.getMetrics().getLoserSuffixes().toArray());
 	}
 
 	@Test
@@ -238,56 +214,45 @@ public class ComputerAITest extends SpringTest {
 		// <untwi> suffixes <[ne, ned, nes, ning, st, sted, sting, sts]>
 		movement.setOldPrefix("untw");
 		movement.setNewInput('i');
-		String[] suffixes = {"ne","ned","nes","ning","st","sted","sting","sts"};
-		Character[] winnerInputs = {'n','s'};
-		String[] winnerSuffixes = {"ne","ning","st"};
+		String[] suffixes = {"ne", "ned", "nes", "ning", "st", "sted", "sting", "sts"};
+		Character[] winnerInputs = {'n', 's'};
+		String[] winnerSuffixes = {"ne", "ning", "st"};
 		Character[] loserInputs = {};
 		String[] loserSuffixes = {};
 		GameStateDTO newState = computerAIService.getNextState(movement);
 		assertTrue(
 				"New prefix unexpected",
-				"untwin".equals(newState.getNewPrefix())
-						|| "untwis".equals(newState.getNewPrefix()));
-		assertEquals("Rating unexpected", GameRating.PLAYER_WILL_LOST,
-				newState.getRating());
-		assertArrayEquals("Suffixes unexpected", suffixes, newState.getSuffixes()
-				.toArray());
+				"untwin".equals(newState.getNewPrefix()) || "untwis".equals(newState.getNewPrefix()));
+		assertEquals("Rating unexpected", GameRating.PLAYER_WILL_LOST, newState.getRating());
+		assertArrayEquals("Suffixes unexpected", suffixes, newState.getSuffixes().toArray());
 		assertNotNull("Metrics expected", newState.getMetrics());
-		assertArrayEquals("Winner inputs unexpected", winnerInputs, newState
-				.getMetrics().getWinnerInputs().toArray());
-		assertArrayEquals("Winner suffixes unexpected", winnerSuffixes, newState
-				.getMetrics().getWinnerSuffixes().toArray());
-		assertArrayEquals("Loser inputs unexpected", loserInputs, newState
-				.getMetrics().getLoserInputs().toArray());
-		assertArrayEquals("Loser suffixes unexpected", loserSuffixes, newState
-				.getMetrics().getLoserSuffixes().toArray());
+		assertArrayEquals("Winner inputs unexpected", winnerInputs, newState.getMetrics().getWinnerInputs().toArray());
+		assertArrayEquals("Winner suffixes unexpected",
+				winnerSuffixes, newState.getMetrics().getWinnerSuffixes().toArray());
+		assertArrayEquals("Loser inputs unexpected", loserInputs, newState.getMetrics().getLoserInputs().toArray());
+		assertArrayEquals("Loser suffixes unexpected",
+				loserSuffixes, newState.getMetrics().getLoserSuffixes().toArray());
 
 		// <unt> suffixes <[hread, hreaded, hreading, hreads, hreatening, hrifty,
 		// hrone, hroned, hrones, hroning]>
 		movement.setOldPrefix("unth");
 		movement.setNewInput('r');
-		String[] suffixes2 = {"ead","eaded","eading","eads","eatening","ifty",
-				"one","oned","ones","oning"};
+		String[] suffixes2 = {"ead", "eaded", "eading", "eads", "eatening", "ifty", "one", "oned", "ones", "oning"};
 		Character[] winnerInputs2 = {'i'};
-		String[] winnerSuffixes2 = {"eatening","ifty"};
+		String[] winnerSuffixes2 = {"eatening", "ifty"};
 		Character[] loserInputs2 = {'o'};
-		String[] loserSuffixes2 = {"ead","one","oning"};
+		String[] loserSuffixes2 = {"ead", "one", "oning"};
 		newState = computerAIService.getNextState(movement);
-		assertTrue("New prefix unexpected",
-				"unthri".equals(newState.getNewPrefix()));
-		assertEquals("Rating unexpected", GameRating.PLAYER_WILL_LOST,
-				newState.getRating());
-		assertArrayEquals("Suffixes unexpected", suffixes2, newState.getSuffixes()
-				.toArray());
+		assertTrue("New prefix unexpected", "unthri".equals(newState.getNewPrefix()));
+		assertEquals("Rating unexpected", GameRating.PLAYER_WILL_LOST, newState.getRating());
+		assertArrayEquals("Suffixes unexpected", suffixes2, newState.getSuffixes().toArray());
 		assertNotNull("Metrics expected", newState.getMetrics());
-		assertArrayEquals("Winner inputs unexpected", winnerInputs2, newState
-				.getMetrics().getWinnerInputs().toArray());
-		assertArrayEquals("Winner suffixes unexpected", winnerSuffixes2, newState
-				.getMetrics().getWinnerSuffixes().toArray());
-		assertArrayEquals("Loser inputs unexpected", loserInputs2, newState
-				.getMetrics().getLoserInputs().toArray());
-		assertArrayEquals("Loser suffixes unexpected", loserSuffixes2, newState
-				.getMetrics().getLoserSuffixes().toArray());
+		assertArrayEquals("Winner inputs unexpected", winnerInputs2, newState.getMetrics().getWinnerInputs().toArray());
+		assertArrayEquals("Winner suffixes unexpected",
+				winnerSuffixes2, newState.getMetrics().getWinnerSuffixes().toArray());
+		assertArrayEquals("Loser inputs unexpected", loserInputs2, newState.getMetrics().getLoserInputs().toArray());
+		assertArrayEquals("Loser suffixes unexpected",
+				loserSuffixes2, newState.getMetrics().getLoserSuffixes().toArray());
 	}
 
 	@Test
@@ -301,22 +266,18 @@ public class ComputerAITest extends SpringTest {
 		 */
 		dictionaryFileLoaderService.setDictionaryFilePath(File.separator
 				+ "dictionaries" + File.separator + "word.lst");
-		computerAIService.setDictionary(dictionaryFileLoaderService
-				.loadDictionnary());
+		computerAIService.setDictionary(dictionaryFileLoaderService.loadDictionnary());
 
 		GameMovementDTO movement = new GameMovementDTO();
 
 		// <untwi> suffixes <[ne, ned, nes, ning, st, sted, sting, sts]>
 		movement.setOldPrefix("untwis");
 		movement.setNewInput('t');
-		String[] suffixes = {"","ed","ing","s"};
+		String[] suffixes = {"", "ed", "ing", "s"};
 		GameStateDTO newState = computerAIService.getNextState(movement);
-		assertTrue("New prefix unexpected",
-				"untwist".equals(newState.getNewPrefix()));
-		assertEquals("Rating unexpected", GameRating.PLAYER_LOST_WORD_COMPLETED,
-				newState.getRating());
-		assertArrayEquals("Suffixes unexpected", suffixes, newState.getSuffixes()
-				.toArray());
+		assertTrue("New prefix unexpected", "untwist".equals(newState.getNewPrefix()));
+		assertEquals("Rating unexpected", GameRating.PLAYER_LOST_WORD_COMPLETED, newState.getRating());
+		assertArrayEquals("Suffixes unexpected", suffixes, newState.getSuffixes().toArray());
 		assertNull("Metrics unexpected", newState.getMetrics());
 	}
 
@@ -331,8 +292,7 @@ public class ComputerAITest extends SpringTest {
 		 */
 		dictionaryFileLoaderService.setDictionaryFilePath(File.separator
 				+ "dictionaries" + File.separator + "word.lst");
-		computerAIService.setDictionary(dictionaryFileLoaderService
-				.loadDictionnary());
+		computerAIService.setDictionary(dictionaryFileLoaderService.loadDictionnary());
 
 		GameMovementDTO movement = new GameMovementDTO();
 
@@ -340,10 +300,8 @@ public class ComputerAITest extends SpringTest {
 		movement.setOldPrefix("untwin");
 		movement.setNewInput('o');
 		GameStateDTO newState = computerAIService.getNextState(movement);
-		assertTrue("New prefix unexpected",
-				"untwino".equals(newState.getNewPrefix()));
-		assertEquals("Rating unexpected", GameRating.PLAYER_LOST_WRONG_PREFIX,
-				newState.getRating());
+		assertTrue("New prefix unexpected", "untwino".equals(newState.getNewPrefix()));
+		assertEquals("Rating unexpected", GameRating.PLAYER_LOST_WRONG_PREFIX, newState.getRating());
 		assertTrue("Suffixes unexpected", newState.getSuffixes().isEmpty());
 		assertNull("Metrics unexpected", newState.getMetrics());
 	}

@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.luchoct.ghost.dto;
 
@@ -9,7 +9,6 @@ import org.junit.Test;
 
 /**
  * @author Luis
- *
  */
 public class MetricsDTOTest {
 
@@ -20,10 +19,14 @@ public class MetricsDTOTest {
 	public void testMetrics() {
 		// I don't use Spring because is a class with package scope. 
 		MetricsDTO metrics = new MetricsDTO();
-		
-		assertTrue("Unexpected default value", (metrics.getWinnerSuffixes() != null) && metrics.getWinnerSuffixes().isEmpty());
-		assertTrue("Unexpected default value", (metrics.getLoserInputs() != null) && metrics.getLoserInputs().isEmpty());
-		assertTrue("Unexpected default value", (metrics.getLoserSuffixes() != null) && metrics.getLoserSuffixes().isEmpty());
-		assertTrue("Unexpected default value", (metrics.getWinnerInputs() != null) && metrics.getWinnerInputs().isEmpty());
+
+		assertTrue("Unexpected default value",
+				metrics.getWinnerSuffixes() != null && metrics.getWinnerSuffixes().isEmpty());
+		assertTrue("Unexpected default value",
+				metrics.getLoserInputs() != null && metrics.getLoserInputs().isEmpty());
+		assertTrue("Unexpected default value",
+				metrics.getLoserSuffixes() != null && metrics.getLoserSuffixes().isEmpty());
+		assertTrue("Unexpected default value",
+				metrics.getWinnerInputs() != null && metrics.getWinnerInputs().isEmpty());
 	}
 }

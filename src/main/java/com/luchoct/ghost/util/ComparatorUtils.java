@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.luchoct.ghost.util;
 
@@ -7,7 +7,6 @@ import java.util.Comparator;
 
 /**
  * @author Luis
- * 
  */
 public final class ComparatorUtils {
 

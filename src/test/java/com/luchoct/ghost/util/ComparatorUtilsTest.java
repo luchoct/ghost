@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.luchoct.ghost.util;
 
@@ -13,36 +13,35 @@ import org.junit.Test;
 
 /**
  * @author Luis
- *
  */
 public class ComparatorUtilsTest {
 
 	/**
-	 * Test the "shorter" comparator (the shortest word before). 
+	 * Test the "shorter" comparator (the shortest word before).
 	 */
 	@Test
 	public void testShorterComparator() {
-		
-		String [] words = {"nes", "ning", "st", "sted", "sting"};
+
+		String[] words = {"nes", "ning", "st", "sted", "sting"};
 		List<String> listWords = Arrays.asList(words);
-		Collections.sort(listWords,ComparatorUtils.FIRST_SHORTER_COMPARATOR);
-		String [] sortedWords = {"st", "nes", "ning", "sted", "sting"};
-		
-		assertArrayEquals("Order unexpected", sortedWords, listWords.toArray());	
+		Collections.sort(listWords, ComparatorUtils.FIRST_SHORTER_COMPARATOR);
+		String[] sortedWords = {"st", "nes", "ning", "sted", "sting"};
+
+		assertArrayEquals("Order unexpected", sortedWords, listWords.toArray());
 	}
-		
+
 	/**
-	 * Test the "longer" comparator (the longest word before). 
+	 * Test the "longer" comparator (the longest word before).
 	 */
 	@Test
 	public void testLongerComparator() {
-		
-		String [] words = {"nes", "ning", "st", "sted", "sting"};
+
+		String[] words = {"nes", "ning", "st", "sted", "sting"};
 		List<String> listWords = Arrays.asList(words);
-		Collections.sort(listWords,ComparatorUtils.FIRST_LONGER_COMPARATOR);
-		String [] sortedWords = {"sting", "ning", "sted", "nes", "st"};
-		
-		assertArrayEquals("Order unexpected", sortedWords, listWords.toArray());	
+		Collections.sort(listWords, ComparatorUtils.FIRST_LONGER_COMPARATOR);
+		String[] sortedWords = {"sting", "ning", "sted", "nes", "st"};
+
+		assertArrayEquals("Order unexpected", sortedWords, listWords.toArray());
 	}
-		
+
 }

@@ -13,10 +13,12 @@
 		<richfacesVersion>3.3.3.Final</richfacesVersion>
 		<org.springframework.version>4.2.6.RELEASE</org.springframework.version>
 		<junitVersion>4.10</junitVersion>
-		<checkstylePluginVersion>2.17</checkstylePluginVersion>
-		<pmdPluginVersion>3.6</pmdPluginVersion>
 		<slf4jVersion>1.7.21</slf4jVersion>
 		<jdkVersion>1.8</jdkVersion>
+		<checkstylePluginVersion>2.17</checkstylePluginVersion>
+		<pmdPluginVersion>3.6</pmdPluginVersion>
+		<jacocoPluginVersion>0.7.6.201602180812</jacocoPluginVersion>
+		<surefirePluginVersion>2.10</surefirePluginVersion>
 	</properties>
 
 	<build>
@@ -34,7 +36,10 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.10</version>
+				<version>${surefirePluginVersion}</version>
+				<configuration>
+					<argLine>${surefireArgLine}</argLine>
+				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -61,10 +66,51 @@
 					<webAppXml>src/test/resources/jetty-test.xml</webAppXml>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>${jacocoPluginVersion}</version>
+				<executions>
+					<execution>
+						<id>default-prepare-agent</id>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+						<configuration>
+							<destFile>${basedir}/target/coverage-reports/jacoco-unit.exec</destFile>
+							<propertyName>surefireArgLine</propertyName>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 	<reporting>
 		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-project-info-reports-plugin</artifactId>
+				<version>2.9</version>
+			</plugin>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>${jacocoPluginVersion}</version>
+				<reportSets>
+					<reportSet>
+						<reports>
+							<report>report</report>
+						</reports>
+						<configuration>
+							<dataFile>${basedir}/target/coverage-reports/jacoco-unit.exec</dataFile>
+							<excludes>
+								<exclude>**/dto/**</exclude>
+								<exclude>**/model/**</exclude>
+							</excludes>
+						</configuration>
+					</reportSet>
+				</reportSets>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-pmd-plugin</artifactId>
@@ -97,6 +143,11 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
 				<version>2.10.3</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-report-plugin</artifactId>
+				<version>2.19.1</version>
 			</plugin>
 		</plugins>
 	</reporting>
@@ -146,11 +197,6 @@
 			<groupId>javax.annotation</groupId>
 			<artifactId>jsr250-api</artifactId>
 			<version>1.0</version>
-		</dependency>
-		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
-			<version>1.2.16</version>
 		</dependency>
 		<!-- RichFaces libraries -->
 		<dependency>

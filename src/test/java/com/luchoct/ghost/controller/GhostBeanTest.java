@@ -3,6 +3,7 @@ package com.luchoct.ghost.controller;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.CoreMatchers.nullValue;
+import static org.hamcrest.Matchers.is;
 import static org.hamcrest.collection.IsEmptyCollection.empty;
 import static org.hamcrest.text.IsEmptyString.isEmptyString;
 import static org.junit.Assert.assertThat;
@@ -19,6 +20,7 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 import javax.faces.event.ActionEvent;
 
+import com.luchoct.ghost.dto.MetricsDTO;
 import com.luchoct.ghost.model.GhostModel;
 import lombok.Data;
 import lombok.NonNull;
@@ -157,5 +159,106 @@ public class GhostBeanTest {
 	@Test
 	public void testPlayerInputThatMakeHimWin() {
 		testPlayerInput(GameRating.PLAYER_WINS_ONLY_ONE_CHARACTER_LEFT);
+	}
+
+	private GhostBean getGhostBeanReturningExpectedRating(final GameRating expectedRating) {
+		final GhostBean aBean = new GhostBean();
+		aBean.setModel(new GhostModel());
+		aBean.getModel().setState(new GameStateDTO());
+		aBean.getModel().getState().setRating(expectedRating);
+		return aBean;
+	}
+
+	@Test
+	public void testIsFinishedReturnsTrueForPlayerWins() {
+		final GhostBean aBean = getGhostBeanReturningExpectedRating(GameRating.PLAYER_WINS_ONLY_ONE_CHARACTER_LEFT);
+		assertThat(aBean.isFinished(), is(true));
+	}
+
+	@Test
+	public void testIsFinishedReturnsTrueForPlayerLostBecauseOfWrongPrefix() {
+		final GhostBean aBean = getGhostBeanReturningExpectedRating(GameRating.PLAYER_LOST_WRONG_PREFIX);
+		assertThat(aBean.isFinished(), is(true));
+	}
+
+	@Test
+	public void testIsFinishedReturnsTrueForPlayerLostBecauseOfWrongCompleted() {
+		final GhostBean aBean = getGhostBeanReturningExpectedRating(GameRating.PLAYER_LOST_WORD_COMPLETED);
+		assertThat(aBean.isFinished(), is(true));
+	}
+
+	@Test
+	public void testIsFinishedReturnsFalseForPlayerWillProbablyWin() {
+		final GhostBean aBean = getGhostBeanReturningExpectedRating(GameRating.PLAYER_WILL_PROBABLY_WIN);
+		assertThat(aBean.isFinished(), is(false));
+	}
+
+	@Test
+	public void testIsFinishedReturnsFalseForPlayerMayWin() {
+		final GhostBean aBean = getGhostBeanReturningExpectedRating(GameRating.PLAYER_MAY_WIN);
+		assertThat(aBean.isFinished(), is(false));
+	}
+
+	@Test
+	public void testIsFinishedReturnsFalseForPlayerWillLost() {
+		final GhostBean aBean = getGhostBeanReturningExpectedRating(GameRating.PLAYER_WILL_LOST);
+		assertThat(aBean.isFinished(), is(false));
+	}
+
+	@Test
+	public void testGetProbabilityReturns50BeforeStartingGame() {
+		final GhostBean aBean = getGhostBeanReturningExpectedRating(null);
+		assertThat(aBean.getProbability(), is(equalTo(50f)));
+	}
+
+	@Test
+	public void testGetProbabilityReturns100WhenPlayerWins() {
+		final GhostBean aBean = getGhostBeanReturningExpectedRating(GameRating.PLAYER_WINS_ONLY_ONE_CHARACTER_LEFT);
+		assertThat(aBean.getProbability(), is(equalTo(100f)));
+	}
+
+	@Test
+	public void testGetProbabilityReturns0WhenPlayerLostBecauseOfWrongPrefix() {
+		final GhostBean aBean = getGhostBeanReturningExpectedRating(GameRating.PLAYER_LOST_WRONG_PREFIX);
+		assertThat(aBean.getProbability(), is(equalTo(0f)));
+	}
+
+	@Test
+	public void testGetProbabilityReturns0WhenPlayerLostBecauseOfWrongCompleted() {
+		final GhostBean aBean = getGhostBeanReturningExpectedRating(GameRating.PLAYER_LOST_WORD_COMPLETED);
+		assertThat(aBean.getProbability(), is(equalTo(0f)));
+	}
+
+	private void assertGetProbabiltyReturnsValueFromMetrics(final GhostBean aBean) {
+		final GhostFacade facade = mock(GhostFacade.class);
+		aBean.setFacade(facade);
+
+		final float probability = 033f;
+		given(facade.getProbability(any(MetricsDTO.class))).willReturn(probability);
+
+		// Then
+		final float retrievedProbability = aBean.getProbability();
+
+		// verify
+		verify(facade).getProbability(any(MetricsDTO.class));
+		assertThat(retrievedProbability, is(equalTo(probability)));
+	}
+
+	@Test
+	public void testGetProbabilityReturnsMetricsWhenPlayerWillProbablyWin() {
+		final GhostBean aBean = getGhostBeanReturningExpectedRating(GameRating.PLAYER_WILL_PROBABLY_WIN);
+		assertGetProbabiltyReturnsValueFromMetrics(aBean);
+	}
+
+	@Test
+	public void testGetProbabilityReturnsMetricsWhenPlayerMayWin() {
+		final GhostBean aBean = getGhostBeanReturningExpectedRating(GameRating.PLAYER_MAY_WIN);
+		assertGetProbabiltyReturnsValueFromMetrics(aBean);
+	}
+
+	@Test
+	public void testGetProbabilityReturnsMetricsWhenPlayerWillLost() {
+		final GhostBean aBean = getGhostBeanReturningExpectedRating(GameRating.PLAYER_WILL_LOST);
+		assertGetProbabiltyReturnsValueFromMetrics(aBean);
 	}
 }

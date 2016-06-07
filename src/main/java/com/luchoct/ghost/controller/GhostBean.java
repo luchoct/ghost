@@ -114,21 +114,17 @@ public class GhostBean {
 	 * @return The probability
 	 */
 	public final float getProbability() {
-		System.out.println("rating " + model.getState().getRating());
-
-		if (model.getState().getRating() == null) {
+		final GameRating rating = model.getState().getRating();
+		if (rating == null) {
 			//The first movement has not been done yet.
 			return 50f;
+		} else  if (GameRating.PLAYER_WINS_ONLY_ONE_CHARACTER_LEFT.equals(rating)) {
+			return 100f;
+		} else if (GameRating.PLAYER_LOST_WRONG_PREFIX.equals(rating)
+				|| GameRating.PLAYER_LOST_WORD_COMPLETED.equals(rating)) {
+			return 0f;
 		} else {
-			final GameRating rating = model.getState().getRating();
-			if (GameRating.PLAYER_WINS_ONLY_ONE_CHARACTER_LEFT.equals(rating)) {
-				return 100f;
-			} else if (GameRating.PLAYER_LOST_WRONG_PREFIX.equals(rating)
-					|| GameRating.PLAYER_LOST_WORD_COMPLETED.equals(rating)) {
-				return 0f;
-			} else {
-				return facade.getProbability(model.getState().getMetrics());
-			}
+			return facade.getProbability(model.getState().getMetrics());
 		}
 	}
 }

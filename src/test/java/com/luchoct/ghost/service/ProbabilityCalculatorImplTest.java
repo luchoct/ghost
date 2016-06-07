@@ -86,7 +86,7 @@ public class ProbabilityCalculatorImplTest extends SpringTest {
 			verify(probabilityService).getProportionalRatio(eq(2), eq(6));
 			verify(probabilityService).getProportionalRatio(eq(10), eq(90));
 			verifyNoMoreInteractions(probabilityService);
-			assertThat(probability, equalTo((ratioInputs * weightInputs) + (ratioSuffixes * (100 - weightInputs))));
+			assertThat(probability, equalTo(ratioInputs * weightInputs + ratioSuffixes * (100 - weightInputs)));
 		} finally {
 			given(probabilityService.getWeightInputs(anyInt())).willCallRealMethod();
 			given(probabilityService.getProportionalRatio(anyInt(), anyInt())).willCallRealMethod();

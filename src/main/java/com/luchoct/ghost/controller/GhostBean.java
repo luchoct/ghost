@@ -10,7 +10,6 @@ import org.slf4j.LoggerFactory;
 import com.luchoct.ghost.dto.GameMovementDTO;
 import com.luchoct.ghost.dto.GameRating;
 import com.luchoct.ghost.dto.GameStateDTO;
-import com.luchoct.ghost.dto.MetricsDTO;
 import com.luchoct.ghost.facade.GhostFacade;
 import com.luchoct.ghost.service.ai.ComputerAIService;
 

@@ -17,7 +17,7 @@ public class ProbabilityCalculatorService implements ProbabilityCalculator {
 	/**
 	 * {@inheritDoc}
 	 */
-	public final float getNextPlayerProbability(final MetricsDTO metrics) {
+	public float getNextPlayerProbability(final MetricsDTO metrics) {
 		//As the metrics were calculated by the previous player, so a lost for previous player is a win for next player.
 
 		// The probability has got 2 partes: one part due to the inputs, another part due to the suffixes.
@@ -48,7 +48,7 @@ public class ProbabilityCalculatorService implements ProbabilityCalculator {
 	 * @param suffixes The number of suffixes.
 	 * @return The weight of inputs.
 	 */
-	final float getWeightInputs(final int suffixes) {
+	float getWeightInputs(final int suffixes) {
 		return 75f + 25f / (suffixes + 1);
 	}
 
@@ -59,7 +59,7 @@ public class ProbabilityCalculatorService implements ProbabilityCalculator {
 	 * @param negativeCases The negative cases.
 	 * @return The ratio.
 	 */
-	final float getProportionalRatio(final int positiveCases, final int negativeCases) {
+	float getProportionalRatio(final int positiveCases, final int negativeCases) {
 		return (float) positiveCases / (positiveCases + negativeCases);
 	}
 }

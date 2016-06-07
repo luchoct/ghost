@@ -15,6 +15,7 @@
 		<junitVersion>4.10</junitVersion>
 		<checkstylePluginVersion>2.17</checkstylePluginVersion>
 		<pmdPluginVersion>3.6</pmdPluginVersion>
+		<slf4jVersion>1.7.21</slf4jVersion>
 		<jdkVersion>1.8</jdkVersion>
 	</properties>
 
@@ -38,7 +39,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-resources-plugin</artifactId>
-				<version>2.5</version>
+				<version>3.0.0</version>
 				<configuration>
 					<encoding>${encoding}</encoding>
 				</configuration>
@@ -72,6 +73,7 @@
 					<targetJdk>${jdkVersion}</targetJdk>
 					<skipPmdError>false</skipPmdError>
 					<skipEmptyReport>false</skipEmptyReport>
+					<includeTests>true</includeTests>
 					<rulesets>
 						<ruleset>${basedir}/src/main/resources/pmdConfiguration.xml</ruleset>
 					</rulesets>
@@ -83,6 +85,7 @@
 				<version>${checkstylePluginVersion}</version>
 				<configuration>
 					<configLocation>${basedir}/src/main/resources/checkstyleConfiguration.xml</configLocation>
+					<includeTestSourceDirectory>true</includeTestSourceDirectory>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -209,13 +212,18 @@
 		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-all</artifactId>
-			<version>1.9.5</version>
+			<version>1.10.19</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-			<version>1.7.2</version>
+			<version>${slf4jVersion}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>${slf4jVersion}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
@@ -225,6 +233,7 @@
 	</dependencies>
 	<repositories>
 		<repository>
+			<!-- Required for richfaces -->
 			<releases>
 				<enabled>true</enabled>
 			</releases>

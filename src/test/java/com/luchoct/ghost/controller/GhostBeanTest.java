@@ -40,10 +40,10 @@ public class GhostBeanTest {
 		private final Character input;
 
 		@Override
-		public boolean matches(Object argument) {
+		public boolean matches(final Object argument) {
 			if (argument instanceof GameMovementDTO) {
 				final GameMovementDTO movement = (GameMovementDTO) argument;
-				return (prefix.equals(movement.getOldPrefix()) && input.equals(movement.getNewInput()));
+				return prefix.equals(movement.getOldPrefix()) && input.equals(movement.getNewInput());
 			} else {
 				return false;
 			}
@@ -117,7 +117,8 @@ public class GhostBeanTest {
 		verify(facade).getNextState(argThat(new MovementMatcher(oldPrefix, newInput)));
 
 		verify(model).setState(eq(newState));
-		if (GameRating.PLAYER_LOST_WORD_COMPLETED.equals(rating) || GameRating.PLAYER_LOST_WRONG_PREFIX.equals(rating)) {
+		if (GameRating.PLAYER_LOST_WORD_COMPLETED.equals(rating)
+				|| GameRating.PLAYER_LOST_WRONG_PREFIX.equals(rating)) {
 			verify(model).setLastInput(isNull(String.class));
 		} else {
 			verify(model).setLastInput(eq(newInput.toString()));

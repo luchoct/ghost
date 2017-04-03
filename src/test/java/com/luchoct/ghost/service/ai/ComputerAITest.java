@@ -9,9 +9,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import java.io.File;
-
-import org.junit.After;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -20,29 +17,40 @@ import com.luchoct.ghost.dto.GameRating;
 import com.luchoct.ghost.dto.GameStateDTO;
 import com.luchoct.ghost.service.DictionaryFileLoaderService;
 import com.luchoct.ghost.test.SpringTest;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.test.annotation.DirtiesContext;
 
 /**
  * @author Luis
  */
+@DirtiesContext
 public class ComputerAITest extends SpringTest {
 
+	@Configuration
+	static class Config {
+		@Autowired
+		/**
+		 * Service required to load the dictionary.
+		 */
+		private DictionaryFileLoaderService dictionaryFileLoaderService;
+
+		@Bean
+		@Qualifier("initializedComputerAIService")
+		public ComputerAIService getInitializedComputerAIService() {
+			final ComputerAIService service = new ComputerAIService();
+			service.setDictionary(dictionaryFileLoaderService.loadDictionnary());
+			return service;
+		}
+	}
+
 	@Autowired
+	@Qualifier("initializedComputerAIService")
 	/**
 	 * Service to test
 	 */
 	private ComputerAIService computerAIService;
-
-	@Autowired
-	/**
-	 * Service required to load the dictionary.
-	 */
-	private DictionaryFileLoaderService dictionaryFileLoaderService;
-
-	@After
-	public void freeDictionary() {
-		computerAIService.setDictionary(null);
-		Runtime.getRuntime().gc();
-	}
 
 	@Test
 	/**
@@ -50,7 +58,6 @@ public class ComputerAITest extends SpringTest {
 	 */
 	public void testService() {
 		assertNotNull("service not initialised", computerAIService);
-		assertNotNull("service not initialised", dictionaryFileLoaderService);
 	}
 
 	private void assertMetrics(final String[] expectedWinnerSuffixes, final String[] expectedLoserSuffixes,
@@ -72,13 +79,6 @@ public class ComputerAITest extends SpringTest {
 	 * It tests the rating of the input of the first player
 	 */
 	public void testPlayerWin() {
-
-		/*
-		 * The dictionary test file is placed in /dictionaries/word.lst
-		 */
-		dictionaryFileLoaderService.setDictionaryFilePath(File.separator
-				+ "dictionaries" + File.separator + "word.lst");
-		computerAIService.setDictionary(dictionaryFileLoaderService.loadDictionnary());
 		final GameMovementDTO movement = new GameMovementDTO();
 
 		// <untagge> suffixes <[d]>
@@ -101,12 +101,6 @@ public class ComputerAITest extends SpringTest {
 	 * It tests if the computer discover that the first player is going to lose.
 	 */
 	public void testPlayerWillProbablyWin() {
-		/*
-		 * The dictionary test file is placed in /dictionaries/word.lst
-		 */
-		dictionaryFileLoaderService.setDictionaryFilePath(File.separator
-				+ "dictionaries" + File.separator + "word.lst");
-		computerAIService.setDictionary(dictionaryFileLoaderService.loadDictionnary());
 
 		final GameMovementDTO movement = new GameMovementDTO();
 
@@ -132,12 +126,6 @@ public class ComputerAITest extends SpringTest {
 	 * It tests a game state where both players can win.
 	 */
 	public void testPlayerMayWin() {
-		/*
-		 * The dictionary test file is placed in /dictionaries/word.lst
-		 */
-		dictionaryFileLoaderService.setDictionaryFilePath(File.separator
-				+ "dictionaries" + File.separator + "word.lst");
-		computerAIService.setDictionary(dictionaryFileLoaderService.loadDictionnary());
 
 		final GameMovementDTO movement = new GameMovementDTO();
 
@@ -191,14 +179,6 @@ public class ComputerAITest extends SpringTest {
 	 */
 	public void testPlayerWillLost() {
 
-		/*
-		 * The dictionary test file is placed in /dictionaries/word.lst
-		 */
-		dictionaryFileLoaderService.setDictionaryFilePath(File.separator
-				+ "dictionaries" + File.separator + "word.lst");
-		computerAIService.setDictionary(dictionaryFileLoaderService
-				.loadDictionnary());
-
 		final GameMovementDTO movement = new GameMovementDTO();
 
 		// <untwi> suffixes <[ne, ned, nes, ning, st, sted, sting, sts]>
@@ -240,13 +220,6 @@ public class ComputerAITest extends SpringTest {
 	 */
 	public void testPlayerLostWholeWords() {
 
-		/*
-		 * The dictionary test file is placed in /dictionaries/word.lst
-		 */
-		dictionaryFileLoaderService.setDictionaryFilePath(File.separator
-				+ "dictionaries" + File.separator + "word.lst");
-		computerAIService.setDictionary(dictionaryFileLoaderService.loadDictionnary());
-
 		final GameMovementDTO movement = new GameMovementDTO();
 
 		// <untwi> suffixes <[ne, ned, nes, ning, st, sted, sting, sts]>
@@ -265,13 +238,6 @@ public class ComputerAITest extends SpringTest {
 	 * It tests a wrong prefix of the first player
 	 */
 	public void testPlayerLostWrongPreffix() {
-
-		/*
-		 * The dictionary test file is placed in /dictionaries/word.lst
-		 */
-		dictionaryFileLoaderService.setDictionaryFilePath(File.separator
-				+ "dictionaries" + File.separator + "word.lst");
-		computerAIService.setDictionary(dictionaryFileLoaderService.loadDictionnary());
 
 		final GameMovementDTO movement = new GameMovementDTO();
 

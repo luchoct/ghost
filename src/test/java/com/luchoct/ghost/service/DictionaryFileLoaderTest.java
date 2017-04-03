@@ -7,7 +7,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import java.io.File;
 import java.util.SortedSet;
 import java.util.TreeMap;
 
@@ -49,8 +48,6 @@ public class DictionaryFileLoaderTest extends SpringTest {
 	public void testOptimizedDictionary() {
 
     	// The dictionary test file is placed in /dictionaries/word.lst
-		dictionaryFileLoaderService.setDictionaryFilePath(File.separator
-				+ "dictionaries" + File.separator + "word.lst");
 		TreeMap<String, SortedSet<String>> dictionary = dictionaryFileLoaderService.loadDictionnary();
 		assertFalse("dictionary empty", dictionary.isEmpty());
 	    // It tests that the word dynamias is correctly split.

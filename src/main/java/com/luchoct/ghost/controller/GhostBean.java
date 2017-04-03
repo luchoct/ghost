@@ -77,23 +77,24 @@ public class GhostBean {
 		final String newInput = model.getNewInput();
 		LOGGER.debug("Player 1 input {}" + newInput);
 
-		assert newInput != null && newInput.length() == 1;
-		final GameMovementDTO newMovement = new GameMovementDTO();
-		newMovement.setNewInput(Character.valueOf(newInput.charAt(0)));
-		newMovement.setOldPrefix(model.getState().getNewPrefix());
+		if ((newInput != null) && (newInput.length() == 1)) {
+			final GameMovementDTO newMovement = new GameMovementDTO();
+			newMovement.setNewInput(Character.valueOf(newInput.charAt(0)));
+			newMovement.setOldPrefix(model.getState().getNewPrefix());
 
-		final GameStateDTO newState = facade.getNextState(newMovement);
-		model.setState(newState);
-		if (GameRating.PLAYER_LOST_WORD_COMPLETED.equals(newState.getRating())
-				|| GameRating.PLAYER_LOST_WRONG_PREFIX.equals(newState.getRating())) {
-			// The second player doesn't move when the first player lost.
-			model.setLastInput(null);
-		} else {
-			// The last input is the last character of the new prefix.
-			model.setLastInput(model.getState().getNewPrefix()
-					.substring(model.getState().getNewPrefix().length() - 1));
+			final GameStateDTO newState = facade.getNextState(newMovement);
+			model.setState(newState);
+			if (GameRating.PLAYER_LOST_WORD_COMPLETED.equals(newState.getRating())
+					|| GameRating.PLAYER_LOST_WRONG_PREFIX.equals(newState.getRating())) {
+				// The second player doesn't move when the first player lost.
+				model.setLastInput(null);
+			} else {
+				// The last input is the last character of the new prefix.
+				model.setLastInput(model.getState().getNewPrefix()
+						.substring(model.getState().getNewPrefix().length() - 1));
+			}
+			model.setNewInput(null);
 		}
-		model.setNewInput(null);
 	}
 
 	/**

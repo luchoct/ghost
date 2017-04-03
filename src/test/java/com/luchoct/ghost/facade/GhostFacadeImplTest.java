@@ -10,11 +10,14 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 
+import com.luchoct.ghost.service.DictionaryLoader;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.luchoct.ghost.dto.GameMovementDTO;
@@ -24,22 +27,20 @@ import com.luchoct.ghost.service.ComputerAI;
 import com.luchoct.ghost.service.ProbabilityCalculator;
 import com.luchoct.ghost.test.SpringTest;
 
-public class GhostFacadeImplTest extends SpringTest {
+@RunWith(MockitoJUnitRunner.class)
+public class GhostFacadeImplTest {
 
-	@Before
-	public void initMocks() {
-		MockitoAnnotations.initMocks(this);
-	}
-
-	@Autowired
-	@InjectMocks
-	private GhostFacadeImpl facade;
+	@Mock
+	private DictionaryLoader dictionaryLoader;
 
 	@Mock
 	private ComputerAI computerAI;
 
 	@Mock
 	private ProbabilityCalculator probabilityService;
+
+	@InjectMocks
+	private GhostFacadeImpl facade;
 
 	@Test
 	public void testGetNextState() {

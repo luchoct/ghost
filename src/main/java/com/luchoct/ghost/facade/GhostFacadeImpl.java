@@ -9,6 +9,7 @@ import java.util.TreeMap;
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import com.luchoct.ghost.dto.GameMovementDTO;
@@ -29,13 +30,11 @@ public class GhostFacadeImpl implements GhostFacade {
 	 */
 	private DictionaryLoader dictionaryLoader;
 
-	@Autowired
 	/**
 	 * The service that emulate the second player.
 	 */
 	private ComputerAI computerAI;
 
-	@Autowired
 	private ProbabilityCalculator probabilityService;
 
 	/**
@@ -43,14 +42,18 @@ public class GhostFacadeImpl implements GhostFacade {
 	 * because the dictionary is used for the player 2.
 	 *
 	 * @param dictionaryLoader service to load the dictionary.
+	 * @param computerAI service to play the computer player.
+	 * @param probabilityService service to calculate probability to win a game.
 	 */
 	@Autowired
-	public GhostFacadeImpl(final DictionaryLoader dictionaryLoader) {
+	public GhostFacadeImpl( final DictionaryLoader dictionaryLoader, @Qualifier("computerAI") ComputerAI computerAI, ProbabilityCalculator probabilityService) {
 		if (dictionaryLoader == null) {
 			throw new IllegalArgumentException("The dictionary loader can't be null");
 		} else {
 			this.dictionaryLoader = dictionaryLoader;
 		}
+		this.computerAI = computerAI;
+		this.probabilityService = probabilityService;
 	}
 
 	@PostConstruct

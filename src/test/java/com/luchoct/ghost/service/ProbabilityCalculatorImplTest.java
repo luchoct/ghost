@@ -24,10 +24,9 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import com.luchoct.ghost.dto.MetricsDTO;
-import com.luchoct.ghost.test.SpringTest;
 
 @RunWith(MockitoJUnitRunner.class)
-public class ProbabilityCalculatorImplTest extends SpringTest {
+public class ProbabilityCalculatorImplTest {
 
 	@Mock
 	/**

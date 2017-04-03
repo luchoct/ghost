@@ -1,7 +1,8 @@
 
 .importantText {
-	font-size:15px; 
+	font-size:15px;
 	margin-left:10px;
+	font-weight: bold;
 }
 
 .resaltedText {

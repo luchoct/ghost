@@ -11,6 +11,16 @@ This is a program that allows a user to play Ghost against the computer.
 ## Technical Specification
 Java web application that provides a basic GUI for a human to play against the optimal computer player from inside a web browser. The web page makes use of AJAX to update the page as the game progresses. The web framework is JSF.
 
+## Run
+
+### Run locally
+```
+mvn package
+java -jar target/dependency/jetty-runner.jar --port 8080 --path /ghost --config src/main/resources/jetty-realm.xml target/ghost.war
+```
+### Run on Heroku
+
+
 # Changelog
 * 2012-11-27 Version 1.0 Initial skeleton
 * 2012-12-27 Version 1.1 Added site report

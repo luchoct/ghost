@@ -9,7 +9,8 @@
 
 	<properties>
 		<encoding>UTF-8</encoding>
-		<jettyVersion>9.3.9.v20160517</jettyVersion>
+		<jettyRunnerVersion>9.3.9.v20160517</jettyRunnerVersion>
+        <jettyMavenPluginVersion>9.3.9.v20160517</jettyMavenPluginVersion>
 		<richfacesVersion>3.3.3.Final</richfacesVersion>
 		<org.springframework.version>4.2.6.RELEASE</org.springframework.version>
 		<junitVersion>4.10</junitVersion>
@@ -58,13 +59,13 @@
 			<plugin>
 				<groupId>org.eclipse.jetty</groupId>
 				<artifactId>jetty-maven-plugin</artifactId>
-				<version>${jettyVersion}</version>
+				<version>${jettyMavenPluginVersion}</version>
 				<configuration>
 					<scanIntervalSeconds>5</scanIntervalSeconds>
 					<webAppConfig>
 						<contextPath>/ghost</contextPath>
 					</webAppConfig>
-					<webAppXml>src/test/resources/jetty-test.xml</webAppXml>
+					<jettyXml>src/main/resources/jetty-realm.xml</jettyXml>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -89,6 +90,27 @@
 				<artifactId>heroku-maven-plugin</artifactId>
 				<version>${herokuPluginVersion}</version>
 			</plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>2.3</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals><goal>copy</goal></goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>org.eclipse.jetty</groupId>
+                                    <artifactId>jetty-runner</artifactId>
+                                    <version>${jettyRunnerVersion}</version>
+                                    <destFileName>jetty-runner.jar</destFileName>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
 		</plugins>
 	</build>
 	<reporting>

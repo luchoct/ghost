@@ -19,6 +19,7 @@
 		<pmdPluginVersion>3.6</pmdPluginVersion>
 		<jacocoPluginVersion>0.7.6.201602180812</jacocoPluginVersion>
 		<surefirePluginVersion>2.10</surefirePluginVersion>
+		<herokuPluginVersion>1.1.3</herokuPluginVersion>
 	</properties>
 
 	<build>
@@ -82,6 +83,11 @@
 						</configuration>
 					</execution>
 				</executions>
+			</plugin>
+			<plugin>
+				<groupId>com.heroku.sdk</groupId>
+				<artifactId>heroku-maven-plugin</artifactId>
+				<version>${herokuPluginVersion}</version>
 			</plugin>
 		</plugins>
 	</build>

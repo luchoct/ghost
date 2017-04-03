@@ -19,7 +19,9 @@ mvn package
 java -jar target/dependency/jetty-runner.jar --port 8080 --path /ghost --config src/main/resources/jetty-realm.xml target/ghost.war
 ```
 ### Run on Heroku
-
+```
+https://optimal-ghost.herokuapp.com/ghost/
+```
 
 # Changelog
 * 2012-11-27 Version 1.0 Initial skeleton

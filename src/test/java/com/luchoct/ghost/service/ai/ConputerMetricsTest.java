@@ -3,9 +3,10 @@
  */
 package com.luchoct.ghost.service.ai;
 
-import static org.junit.Assert.assertTrue;
+import org.junit.jupiter.api.Test;
 
-import org.junit.Test;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.IsEqual.equalTo;
 
 /**
  * @author Luis
@@ -20,13 +21,17 @@ public class ConputerMetricsTest {
 		// I don't use Spring because is a class with package scope. 
 		ComputerMetrics dictionaryMetrics = new ComputerMetrics();
 
-		assertTrue("Unexpected default value",
-				dictionaryMetrics.getWinnerSuffixes() != null && dictionaryMetrics.getWinnerSuffixes().isEmpty());
-		assertTrue("Unexpected default value",
-				dictionaryMetrics.getLoserSuffixes() != null && dictionaryMetrics.getLoserSuffixes().isEmpty());
-		assertTrue("Unexpected default value",
-				dictionaryMetrics.getLoserInputs() != null && dictionaryMetrics.getLoserInputs().isEmpty());
-		assertTrue("Unexpected default value",
-				dictionaryMetrics.getWinnerInputs() != null && dictionaryMetrics.getWinnerInputs().isEmpty());
+		assertThat("Unexpected default value",
+				dictionaryMetrics.getWinnerSuffixes() != null && dictionaryMetrics.getWinnerSuffixes().isEmpty(),
+				equalTo(true));
+		assertThat("Unexpected default value",
+				dictionaryMetrics.getLoserSuffixes() != null && dictionaryMetrics.getLoserSuffixes().isEmpty(),
+				equalTo(true));
+		assertThat("Unexpected default value",
+				dictionaryMetrics.getLoserInputs() != null && dictionaryMetrics.getLoserInputs().isEmpty(),
+				equalTo(true));
+		assertThat("Unexpected default value",
+				dictionaryMetrics.getWinnerInputs() != null && dictionaryMetrics.getWinnerInputs().isEmpty(),
+				equalTo(true));
 	}
 }

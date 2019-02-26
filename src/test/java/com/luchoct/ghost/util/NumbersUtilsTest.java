@@ -3,10 +3,10 @@
  */
 package com.luchoct.ghost.util;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import org.junit.jupiter.api.Test;
 
-import org.junit.Test;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.IsEqual.equalTo;
 
 /**
  * @author Luis
@@ -18,8 +18,8 @@ public class NumbersUtilsTest {
 	 * It tests the initialization of the service
 	 */
 	public void testEven() {
-		assertTrue("Espected even", NumberUtils.isEven(2));
-		assertFalse("Espected odd", NumberUtils.isEven(5));
+		assertThat("Espected even", NumberUtils.isEven(2), equalTo(true));
+		assertThat("Espected odd", NumberUtils.isEven(5), equalTo(false));
 	}
 
 

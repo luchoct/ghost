@@ -9,18 +9,19 @@
 
 	<properties>
 		<encoding>UTF-8</encoding>
-		<jettyRunnerVersion>9.3.9.v20160517</jettyRunnerVersion>
-        <jettyMavenPluginVersion>9.3.9.v20160517</jettyMavenPluginVersion>
+		<jettyRunnerVersion>9.4.15.v20190215</jettyRunnerVersion>
+        <jettyMavenPluginVersion>9.4.15.v20190215</jettyMavenPluginVersion>
 		<richfacesVersion>3.3.3.Final</richfacesVersion>
-		<org.springframework.version>4.2.6.RELEASE</org.springframework.version>
-		<junitVersion>4.10</junitVersion>
+		<org.springframework.version>5.1.5.RELEASE</org.springframework.version>
+		<junitVersion>5.4.0</junitVersion>
 		<slf4jVersion>1.7.21</slf4jVersion>
-		<jdkVersion>1.8</jdkVersion>
-		<checkstylePluginVersion>2.17</checkstylePluginVersion>
-		<pmdPluginVersion>3.6</pmdPluginVersion>
-		<jacocoPluginVersion>0.7.6.201602180812</jacocoPluginVersion>
-		<surefirePluginVersion>2.10</surefirePluginVersion>
+		<jdkVersion>10</jdkVersion>
+		<checkstylePluginVersion>3.0.0</checkstylePluginVersion>
+		<pmdPluginVersion>3.11.0</pmdPluginVersion>
+		<jacocoPluginVersion>0.8.3</jacocoPluginVersion>
+		<surefirePluginVersion>3.0.0-M3</surefirePluginVersion>
 		<herokuPluginVersion>1.1.3</herokuPluginVersion>
+        <mockitoVersion>2.24.5</mockitoVersion>
 	</properties>
 
 	<build>
@@ -28,11 +29,11 @@
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.5.1</version>
+				<version>3.8.0</version>
 				<configuration>
 					<encoding>${encoding}</encoding>
-					<source>${jdkVersion}</source>
-					<target>${jdkVersion}</target>
+					<release>${jdkVersion}</release>
+                    <forceJavacCompilerUse>true</forceJavacCompilerUse>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -46,7 +47,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-resources-plugin</artifactId>
-				<version>3.0.0</version>
+				<version>3.1.0</version>
 				<configuration>
 					<encoding>${encoding}</encoding>
 				</configuration>
@@ -54,7 +55,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-site-plugin</artifactId>
-				<version>3.5.1</version>
+				<version>3.7.1</version>
 			</plugin>
 			<plugin>
 				<groupId>org.eclipse.jetty</groupId>
@@ -85,15 +86,10 @@
 					</execution>
 				</executions>
 			</plugin>
-			<plugin>
-				<groupId>com.heroku.sdk</groupId>
-				<artifactId>heroku-maven-plugin</artifactId>
-				<version>${herokuPluginVersion}</version>
-			</plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
-                <version>2.3</version>
+                <version>3.1.1</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -115,11 +111,6 @@
 	</build>
 	<reporting>
 		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-project-info-reports-plugin</artifactId>
-				<version>2.9</version>
-			</plugin>
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
@@ -165,30 +156,30 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jxr-plugin</artifactId>
-				<version>2.5</version>
+				<version>3.0.0</version>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>2.10.3</version>
+				<version>3.0.1</version>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-report-plugin</artifactId>
-				<version>2.19.1</version>
+				<version>${surefirePluginVersion}</version>
 			</plugin>
 		</plugins>
 	</reporting>
 	<dependencies>
 		<dependency>
 			<groupId>org.hamcrest</groupId>
-			<artifactId>hamcrest-all</artifactId>
-			<version>1.3</version>
+			<artifactId>hamcrest</artifactId>
+			<version>2.1</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter</artifactId>
 			<version>${junitVersion}</version>
 			<scope>test</scope>
 		</dependency>
@@ -285,10 +276,16 @@
 		</dependency>
 		<dependency>
 			<groupId>org.mockito</groupId>
-			<artifactId>mockito-all</artifactId>
-			<version>1.10.19</version>
+			<artifactId>mockito-core</artifactId>
+			<version>${mockitoVersion}</version>
 			<scope>test</scope>
 		</dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-junit-jupiter</artifactId>
+            <version>${mockitoVersion}</version>
+            <scope>test</scope>
+        </dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
@@ -300,25 +297,36 @@
 			<version>${slf4jVersion}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.projectlombok</groupId>
+			<groupId>com.luchoct.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-			<version>1.16.8</version>
+			<version>1.16.21.java10</version>
 		</dependency>
 	</dependencies>
 	<repositories>
-		<repository>
-			<!-- Required for richfaces -->
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-				<updatePolicy>never</updatePolicy>
-			</snapshots>
-			<id>repository.jboss.com</id>
-			<name>Jboss Repository for Maven</name>
-			<url>https://repository.jboss.org/nexus/content/groups/public-jboss/</url>
-			<layout>default</layout>
-		</repository>
+        <repository>
+            <!-- Required for richfaces -->
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+                <updatePolicy>never</updatePolicy>
+            </snapshots>
+            <id>repository.jboss.com</id>
+            <name>Jboss Repository for Maven</name>
+            <url>https://repository.jboss.org/nexus/content/groups/public-jboss/</url>
+            <layout>default</layout>
+        </repository>
+        <repository>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <id>lib</id>
+            <name>lib</name>
+            <url>file://${project.basedir}\lib</url>
+        </repository>
 	</repositories>
 </project>

@@ -46,7 +46,10 @@ public class GhostFacadeImpl implements GhostFacade {
 	 * @param probabilityService service to calculate probability to win a game.
 	 */
 	@Autowired
-	public GhostFacadeImpl( final DictionaryLoader dictionaryLoader, @Qualifier("computerAI") ComputerAI computerAI, ProbabilityCalculator probabilityService) {
+	public GhostFacadeImpl(
+			final DictionaryLoader dictionaryLoader,
+			final @Qualifier("computerAI") ComputerAI computerAI,
+			final ProbabilityCalculator probabilityService) {
 		if (dictionaryLoader == null) {
 			throw new IllegalArgumentException("The dictionary loader can't be null");
 		} else {
@@ -58,7 +61,7 @@ public class GhostFacadeImpl implements GhostFacade {
 
 	@PostConstruct
 	private void loadDictionary() {
-		final TreeMap<String, SortedSet<String>> dictionary = dictionaryLoader.loadDictionnary();
+		final TreeMap<String, SortedSet<String>> dictionary = dictionaryLoader.loadDictionary();
 		computerAI.setDictionary(dictionary);
 	}
 

@@ -3,9 +3,10 @@
  */
 package com.luchoct.ghost.dto;
 
-import static org.junit.Assert.assertTrue;
+import org.junit.jupiter.api.Test;
 
-import org.junit.Test;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.IsEqual.equalTo;
 
 /**
  * @author Luis
@@ -20,13 +21,17 @@ public class MetricsDTOTest {
 		// I don't use Spring because is a class with package scope. 
 		MetricsDTO metrics = new MetricsDTO();
 
-		assertTrue("Unexpected default value",
-				metrics.getWinnerSuffixes() != null && metrics.getWinnerSuffixes().isEmpty());
-		assertTrue("Unexpected default value",
-				metrics.getLoserInputs() != null && metrics.getLoserInputs().isEmpty());
-		assertTrue("Unexpected default value",
-				metrics.getLoserSuffixes() != null && metrics.getLoserSuffixes().isEmpty());
-		assertTrue("Unexpected default value",
-				metrics.getWinnerInputs() != null && metrics.getWinnerInputs().isEmpty());
+		assertThat("Unexpected default value",
+				metrics.getWinnerSuffixes() != null && metrics.getWinnerSuffixes().isEmpty(),
+				equalTo(true));
+		assertThat("Unexpected default value",
+				metrics.getLoserInputs() != null && metrics.getLoserInputs().isEmpty(),
+				equalTo(true));
+		assertThat("Unexpected default value",
+				metrics.getLoserSuffixes() != null && metrics.getLoserSuffixes().isEmpty(),
+				equalTo(true));
+		assertThat("Unexpected default value",
+				metrics.getWinnerInputs() != null && metrics.getWinnerInputs().isEmpty(),
+				equalTo(true));
 	}
 }

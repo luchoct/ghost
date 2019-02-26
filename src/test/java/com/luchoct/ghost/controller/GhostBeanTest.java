@@ -1,40 +1,40 @@
 package com.luchoct.ghost.controller;
 
+import com.luchoct.ghost.dto.GameMovementDTO;
+import com.luchoct.ghost.dto.GameRating;
+import com.luchoct.ghost.dto.GameStateDTO;
+import com.luchoct.ghost.dto.MetricsDTO;
+import com.luchoct.ghost.facade.GhostFacade;
+import com.luchoct.ghost.model.GhostModel;
+import lombok.Data;
+import lombok.NonNull;
+import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentMatcher;
+import org.mockito.Mockito;
+
+import javax.faces.event.ActionEvent;
+
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.CoreMatchers.nullValue;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.collection.IsEmptyCollection.empty;
 import static org.hamcrest.text.IsEmptyString.isEmptyString;
-import static org.junit.Assert.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willCallRealMethod;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.argThat;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Matchers.isNull;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.argThat;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 
-import javax.faces.event.ActionEvent;
-
-import com.luchoct.ghost.dto.MetricsDTO;
-import com.luchoct.ghost.model.GhostModel;
-import lombok.Data;
-import lombok.NonNull;
-import org.junit.Test;
-import org.mockito.ArgumentMatcher;
-
-import com.luchoct.ghost.dto.GameMovementDTO;
-import com.luchoct.ghost.dto.GameRating;
-import com.luchoct.ghost.dto.GameStateDTO;
-import com.luchoct.ghost.facade.GhostFacade;
-
 public class GhostBeanTest {
 	@Data
-	private class MovementMatcher extends ArgumentMatcher<GameMovementDTO> {
+	private class MovementMatcher implements ArgumentMatcher<GameMovementDTO> {
 
 		@NonNull
 		private final String prefix;
@@ -42,13 +42,8 @@ public class GhostBeanTest {
 		private final Character input;
 
 		@Override
-		public boolean matches(final Object argument) {
-			if (argument instanceof GameMovementDTO) {
-				final GameMovementDTO movement = (GameMovementDTO) argument;
-				return prefix.equals(movement.getOldPrefix()) && input.equals(movement.getNewInput());
-			} else {
-				return false;
-			}
+		public boolean matches(final GameMovementDTO movement) {
+			return prefix.equals(movement.getOldPrefix()) && input.equals(movement.getNewInput());
 		}
 	}
 
@@ -163,9 +158,10 @@ public class GhostBeanTest {
 
 	private GhostBean getGhostBeanReturningExpectedRating(final GameRating expectedRating) {
 		final GhostBean aBean = new GhostBean();
-		aBean.setModel(new GhostModel());
-		aBean.getModel().setState(new GameStateDTO());
-		aBean.getModel().getState().setRating(expectedRating);
+		final GhostModel model = mock(GhostModel.class, Mockito.RETURNS_DEEP_STUBS);
+		given(model.getState().getRating()).willReturn(expectedRating);
+		given(model.getState().getMetrics()).willReturn(new MetricsDTO());
+		aBean.setModel(model);
 		return aBean;
 	}
 
@@ -229,7 +225,7 @@ public class GhostBeanTest {
 		assertThat(aBean.getProbability(), is(equalTo(0f)));
 	}
 
-	private void assertGetProbabiltyReturnsValueFromMetrics(final GhostBean aBean) {
+	private void assertGetProbabilityReturnsValueFromMetrics(final GhostBean aBean) {
 		final GhostFacade facade = mock(GhostFacade.class);
 		aBean.setFacade(facade);
 
@@ -247,18 +243,18 @@ public class GhostBeanTest {
 	@Test
 	public void testGetProbabilityReturnsMetricsWhenPlayerWillProbablyWin() {
 		final GhostBean aBean = getGhostBeanReturningExpectedRating(GameRating.PLAYER_WILL_PROBABLY_WIN);
-		assertGetProbabiltyReturnsValueFromMetrics(aBean);
+		assertGetProbabilityReturnsValueFromMetrics(aBean);
 	}
 
 	@Test
 	public void testGetProbabilityReturnsMetricsWhenPlayerMayWin() {
 		final GhostBean aBean = getGhostBeanReturningExpectedRating(GameRating.PLAYER_MAY_WIN);
-		assertGetProbabiltyReturnsValueFromMetrics(aBean);
+		assertGetProbabilityReturnsValueFromMetrics(aBean);
 	}
 
 	@Test
 	public void testGetProbabilityReturnsMetricsWhenPlayerWillLost() {
 		final GhostBean aBean = getGhostBeanReturningExpectedRating(GameRating.PLAYER_WILL_LOST);
-		assertGetProbabiltyReturnsValueFromMetrics(aBean);
+		assertGetProbabilityReturnsValueFromMetrics(aBean);
 	}
 }

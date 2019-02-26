@@ -40,7 +40,7 @@ public class DictionaryFileLoaderService implements DictionaryLoader {
 	/**
 	 * {@inheritDoc}
 	 */
-	public final TreeMap<String, SortedSet<String>> loadDictionnary() {
+	public final TreeMap<String, SortedSet<String>> loadDictionary() {
 		LOGGER.debug("Opening dictionary file {}", dictionaryFilePath);
 		final TreeMap<String, SortedSet<String>> dictionary = new TreeMap<String, SortedSet<String>>();
 		try (BufferedReader reader = new BufferedReader(

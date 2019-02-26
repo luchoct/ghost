@@ -56,7 +56,7 @@ public enum GameRating {
 	@Getter
 	private final String messageKey;
 
-	private GameRating(final int code, final String messageKey) {
+	GameRating(final int code, final String messageKey) {
 		this.code = code;
 		this.messageKey = messageKey;
 	}

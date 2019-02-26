@@ -3,18 +3,20 @@
  */
 package com.luchoct.ghost.service;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import com.luchoct.ghost.test.SpringTest;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.SortedSet;
 import java.util.TreeMap;
 
-import org.junit.After;
-import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import com.luchoct.ghost.test.SpringTest;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.collection.IsIn.in;
+import static org.hamcrest.collection.IsMapContaining.hasKey;
+import static org.hamcrest.collection.IsMapWithSize.anEmptyMap;
+import static org.hamcrest.core.IsNot.not;
+import static org.hamcrest.core.IsNull.notNullValue;
 
 /**
  * @author Luis
@@ -32,10 +34,10 @@ public class DictionaryFileLoaderTest extends SpringTest {
 	 */
 	@Test
 	public void testService() {
-		assertNotNull("service not initialised", dictionaryFileLoaderService);
+		assertThat("service not initialised", dictionaryFileLoaderService, notNullValue());
 	}
 
-	@After
+	@AfterEach
 	public void freeDictionary() {
 		// I force the garbage collector because the dictionary can need quite a lot of memory.
 		Runtime.getRuntime().gc();
@@ -48,22 +50,22 @@ public class DictionaryFileLoaderTest extends SpringTest {
 	public void testOptimizedDictionary() {
 
     	// The dictionary test file is placed in /dictionaries/word.lst
-		TreeMap<String, SortedSet<String>> dictionary = dictionaryFileLoaderService.loadDictionnary();
-		assertFalse("dictionary empty", dictionary.isEmpty());
+		TreeMap<String, SortedSet<String>> dictionary = dictionaryFileLoaderService.loadDictionary();
+		assertThat("dictionary empty", dictionary, not(anEmptyMap()));
 	    // It tests that the word dynamias is correctly split.
-		assertTrue("prefix expected", dictionary.containsKey("a"));
-		assertTrue("suffix expected", dictionary.get("a").contains("dynamias"));
-		assertFalse("prefix unexpected", dictionary.containsKey("ad"));
-		assertTrue("prefix expected", dictionary.containsKey("ady"));
-		assertTrue("suffix expected", dictionary.get("ady").contains("namias"));
-		assertFalse("prefix unexpected", dictionary.containsKey("adyn"));
-		assertTrue("prefix expected", dictionary.containsKey("adyna"));
-		assertTrue("suffix expected", dictionary.get("adyna").contains("mias"));
-		assertFalse("prefix unexpected", dictionary.containsKey("adynam"));
-		assertTrue("prefix expected", dictionary.containsKey("adynami"));
-		assertTrue("suffix expected", dictionary.get("adynami").contains("as"));
-		assertFalse("prefix unexpected", dictionary.containsKey("adynamia"));
-		assertTrue("prefix expected", dictionary.containsKey("adynamias"));
-		assertTrue("suffix expected", dictionary.get("adynamias").contains(""));
+		assertThat("prefix expected", dictionary, hasKey("a"));
+		assertThat("suffix expected", "dynamias", in(dictionary.get("a")));
+		assertThat("prefix unexpected", dictionary, not(hasKey("ad")));
+		assertThat("prefix expected", dictionary, hasKey("ady"));
+		assertThat("suffix expected", "namias", in(dictionary.get("ady")));
+		assertThat("prefix unexpected", dictionary, not(hasKey("adyn")));
+		assertThat("prefix expected", dictionary, hasKey("adyna"));
+		assertThat("suffix expected", "mias", in(dictionary.get("adyna")));
+		assertThat("prefix unexpected", dictionary, not(hasKey("adynam")));
+		assertThat("prefix expected", dictionary, hasKey("adynami"));
+		assertThat("suffix expected", "as", in(dictionary.get("adynami")));
+		assertThat("prefix unexpected", dictionary, not(hasKey("adynamia")));
+		assertThat("prefix expected", dictionary, hasKey("adynamias"));
+		assertThat("suffix expected", "", in(dictionary.get("adynamias")));
 	}
 }

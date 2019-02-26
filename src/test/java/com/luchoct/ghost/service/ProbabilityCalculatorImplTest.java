@@ -1,31 +1,29 @@
 package com.luchoct.ghost.service;
 
+import com.luchoct.ghost.dto.MetricsDTO;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.List;
+import java.util.SortedSet;
+
 import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.IsNull.notNullValue;
 import static org.hamcrest.number.IsCloseTo.closeTo;
 import static org.hamcrest.number.OrderingComparison.greaterThan;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyInt;
-import static org.mockito.Matchers.eq;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 
-import java.util.List;
-import java.util.SortedSet;
-
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
-
-import com.luchoct.ghost.dto.MetricsDTO;
-
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class ProbabilityCalculatorImplTest {
 
 	@Mock
@@ -39,7 +37,7 @@ public class ProbabilityCalculatorImplTest {
 	 * It tests the initialization of the service
 	 */
 	public void testService() {
-		assertNotNull("service not initialised", probabilityService);
+		assertThat("service not initialised", probabilityService, notNullValue());
 	}
 
 	@Test
@@ -75,21 +73,16 @@ public class ProbabilityCalculatorImplTest {
 
 		given(probabilityService.getNextPlayerProbability((MetricsDTO) any())).willCallRealMethod();
 
-		try {
-			// When
-			float probability = probabilityService.getNextPlayerProbability(metrics);
+		// When
+		float probability = probabilityService.getNextPlayerProbability(metrics);
 
-			// Then
-			verify(probabilityService).getNextPlayerProbability(eq(metrics));
-			verify(probabilityService).getWeightInputs(eq(10 + 90 - 2 - 6));
-			verify(probabilityService).getProportionalRatio(eq(2), eq(6));
-			verify(probabilityService).getProportionalRatio(eq(10), eq(90));
-			verifyNoMoreInteractions(probabilityService);
-			assertThat(probability, equalTo(ratioInputs * weightInputs + ratioSuffixes * (100 - weightInputs)));
-		} finally {
-			given(probabilityService.getWeightInputs(anyInt())).willCallRealMethod();
-			given(probabilityService.getProportionalRatio(anyInt(), anyInt())).willCallRealMethod();
-		}
+		// Then
+		verify(probabilityService).getNextPlayerProbability(eq(metrics));
+		verify(probabilityService).getWeightInputs(eq(10 + 90 - 2 - 6));
+		verify(probabilityService).getProportionalRatio(eq(2), eq(6));
+		verify(probabilityService).getProportionalRatio(eq(10), eq(90));
+		verifyNoMoreInteractions(probabilityService);
+		assertThat(probability, equalTo(ratioInputs * weightInputs + ratioSuffixes * (100 - weightInputs)));
 	}
 
 	@Test
@@ -123,19 +116,14 @@ public class ProbabilityCalculatorImplTest {
 
 		given(probabilityService.getProportionalRatio(anyInt(), anyInt())).willCallRealMethod();
 
-		final double delta = 0.1;
-		try {
-			//When and Test
-			assertEquals(0f, probabilityService.getProportionalRatio(0, 1), delta);
-			assertEquals(0f, probabilityService.getProportionalRatio(0, 5), delta);
-			assertEquals(1f, probabilityService.getProportionalRatio(1, 0), delta);
-			assertEquals(1f, probabilityService.getProportionalRatio(5, 0), delta);
-			assertEquals(0.5f, probabilityService.getProportionalRatio(1, 1), delta);
-			assertEquals(0.5f, probabilityService.getProportionalRatio(5, 5), delta);
-			assertEquals(0.25f, probabilityService.getProportionalRatio(1, 4), delta);
-		} finally {
-			given(probabilityService.getProportionalRatio(anyInt(), anyInt())).willCallRealMethod();
-		}
-
+		final double delta = 0.1d;
+		//When and Test
+		assertThat((double) probabilityService.getProportionalRatio(0, 1), closeTo(0d, delta));
+		assertThat((double) probabilityService.getProportionalRatio(0, 5), closeTo(0d, delta));
+		assertThat((double) probabilityService.getProportionalRatio(1, 0), closeTo(1d, delta));
+		assertThat((double) probabilityService.getProportionalRatio(5, 0), closeTo(1d, delta));
+		assertThat((double) probabilityService.getProportionalRatio(1, 1), closeTo(0.5d, delta));
+		assertThat((double) probabilityService.getProportionalRatio(5, 5), closeTo(0.5d, delta));
+		assertThat((double) probabilityService.getProportionalRatio(1, 4), closeTo(0.25d, delta));
 	}
 }

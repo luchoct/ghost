@@ -18,6 +18,6 @@ public interface DictionaryLoader {
 	 * @return A map where the keys are prefixes and the values are the suffixes that produce a word with the
 	 * corresponding prefix, in alphabetical order. The map is sorted in alphabetical order too.
 	 */
-	TreeMap<String, SortedSet<String>> loadDictionnary();
+	TreeMap<String, SortedSet<String>> loadDictionary();
 
 }

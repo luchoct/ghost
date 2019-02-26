@@ -3,13 +3,13 @@
  */
 package com.luchoct.ghost.util;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.Test;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.IsEqual.equalTo;
 
 /**
  * @author Luis
@@ -25,13 +25,13 @@ public class StringUtilsTest {
 		String[] words = {"ne", "ned", "nes", "ning", "st", "sted", "sting", "sts"};
 		List<String> listWords = Arrays.asList(words);
 
-		assertTrue("Prefix contained", StringUtils.containsPrefix(listWords, "sti"));
-		assertTrue("Prefix contained", StringUtils.containsPrefix(listWords, "ne"));
-		assertTrue("Prefix contained", StringUtils.containsPrefix(listWords, "ni"));
-		assertTrue("Prefix contained", StringUtils.containsPrefix(listWords, "s"));
-		assertFalse("Prefix not contained", StringUtils.containsPrefix(listWords, "sta"));
-		assertFalse("Prefix not contained", StringUtils.containsPrefix(listWords, "a"));
-		assertFalse("Prefix not contained", StringUtils.containsPrefix(listWords, "no"));
+		assertThat("Prefix contained", StringUtils.containsPrefix(listWords, "sti"), equalTo(true));
+		assertThat("Prefix contained", StringUtils.containsPrefix(listWords, "ne"), equalTo(true));
+		assertThat("Prefix contained", StringUtils.containsPrefix(listWords, "ni"), equalTo(true));
+		assertThat("Prefix contained", StringUtils.containsPrefix(listWords, "s"), equalTo(true));
+		assertThat("Prefix not contained", StringUtils.containsPrefix(listWords, "sta"), equalTo(false));
+		assertThat("Prefix not contained", StringUtils.containsPrefix(listWords, "a"), equalTo(false));
+		assertThat("Prefix not contained", StringUtils.containsPrefix(listWords, "no"), equalTo(false));
 	}
 
 	/**
@@ -43,12 +43,12 @@ public class StringUtilsTest {
 		String[] prefixes = {"ne", "ned", "nes", "ning", "st", "sted", "sting", "sts"};
 		List<String> listPrefixes = Arrays.asList(prefixes);
 
-		assertTrue("Prefix contained", StringUtils.containsSomePrefix("stedadsdf", listPrefixes));
-		assertTrue("Prefix contained", StringUtils.containsSomePrefix("neasdsadfa", listPrefixes));
-		assertTrue("Prefix contained", StringUtils.containsSomePrefix("ningsdfsf", listPrefixes));
-		assertFalse("Prefix not contained", StringUtils.containsSomePrefix("nasfds", listPrefixes));
-		assertFalse("Prefix not contained", StringUtils.containsSomePrefix("abdsfsd", listPrefixes));
-		assertFalse("Prefix not contained", StringUtils.containsSomePrefix("ninsdfdsf", listPrefixes));
-		assertFalse("Prefix not contained", StringUtils.containsSomePrefix("swerwrw", listPrefixes));
+		assertThat("Prefix contained", StringUtils.containsSomePrefix("stedadsdf", listPrefixes), equalTo(true));
+		assertThat("Prefix contained", StringUtils.containsSomePrefix("neasdsadfa", listPrefixes), equalTo(true));
+		assertThat("Prefix contained", StringUtils.containsSomePrefix("ningsdfsf", listPrefixes), equalTo(true));
+		assertThat("Prefix not contained", StringUtils.containsSomePrefix("nasfds", listPrefixes), equalTo(false));
+		assertThat("Prefix not contained", StringUtils.containsSomePrefix("abdsfsd", listPrefixes), equalTo(false));
+		assertThat("Prefix not contained", StringUtils.containsSomePrefix("ninsdfdsf", listPrefixes), equalTo(false));
+		assertThat("Prefix not contained", StringUtils.containsSomePrefix("swerwrw", listPrefixes), equalTo(false));
 	}
 }

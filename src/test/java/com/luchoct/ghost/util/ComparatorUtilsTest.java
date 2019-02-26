@@ -3,13 +3,14 @@
  */
 package com.luchoct.ghost.util;
 
-import static org.junit.Assert.assertArrayEquals;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.junit.Test;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.IsEqual.equalTo;
 
 /**
  * @author Luis
@@ -22,12 +23,13 @@ public class ComparatorUtilsTest {
 	@Test
 	public void testShorterComparator() {
 
-		String[] words = {"nes", "ning", "st", "sted", "sting"};
-		List<String> listWords = Arrays.asList(words);
+		List<String> listWords = Arrays.asList(new String[] {"nes", "ning", "st", "sted", "sting"});
 		Collections.sort(listWords, ComparatorUtils.FIRST_SHORTER_COMPARATOR);
-		String[] sortedWords = {"st", "nes", "ning", "sted", "sting"};
+		List<String> sortedWords = Arrays.asList(new String[] {"st", "nes", "ning", "sted", "sting"});
 
-		assertArrayEquals("Order unexpected", sortedWords, listWords.toArray());
+		assertThat("Order unexpected",
+				listWords,
+				equalTo(sortedWords));
 	}
 
 	/**
@@ -36,12 +38,13 @@ public class ComparatorUtilsTest {
 	@Test
 	public void testLongerComparator() {
 
-		String[] words = {"nes", "ning", "st", "sted", "sting"};
-		List<String> listWords = Arrays.asList(words);
+		List<String> listWords = Arrays.asList(new String[] {"nes", "ning", "st", "sted", "sting"});
 		Collections.sort(listWords, ComparatorUtils.FIRST_LONGER_COMPARATOR);
-		String[] sortedWords = {"sting", "ning", "sted", "nes", "st"};
+		List<String> sortedWords = Arrays.asList(new String[] {"sting", "ning", "sted", "nes", "st"});
 
-		assertArrayEquals("Order unexpected", sortedWords, listWords.toArray());
+		assertThat("Order unexpected",
+				listWords,
+				equalTo(sortedWords));
 	}
 
 }

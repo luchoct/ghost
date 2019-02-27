@@ -5,6 +5,9 @@ package com.luchoct.ghost.dto;
 
 import lombok.Getter;
 
+import java.util.Optional;
+import java.util.stream.Stream;
+
 /**
  * @author Luis
  */
@@ -62,12 +65,12 @@ public enum GameRating {
 	}
 
 	public static final GameRating valueOfCode(final int code) {
-		for (GameRating value : values()) {
-			if (value.code == code) {
-				return value;
-			}
+		final Optional<GameRating> optionalValue = Stream.of(values()).filter(value -> value.code == code).findFirst();
+		if (optionalValue.isPresent()) {
+			return optionalValue.get();
+		} else {
+			throw new IllegalArgumentException("The given code is not a GameRating code");
 		}
-		throw new IllegalArgumentException("The given code is not a GameRating code");
 	}
 }
 

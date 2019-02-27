@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
+import java.util.stream.IntStream;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -59,9 +60,7 @@ public class DictionaryFileLoaderService implements DictionaryLoader {
 			LOGGER.error("Exception opening file {}", dictionaryFilePath, ex);
 		}
 		if (LOGGER.isDebugEnabled()) {
-			for (String prefix : dictionary.keySet()) {
-				LOGGER.debug("Dictionary prefix <{}> suffixes <{}>", prefix, dictionary.get(prefix));
-			}
+			dictionary.keySet().forEach(prefix -> LOGGER.debug("Dictionary prefix <{}> suffixes <{}>", prefix, dictionary.get(prefix)));
 		}
 		return dictionary;
 	}
@@ -77,24 +76,22 @@ public class DictionaryFileLoaderService implements DictionaryLoader {
 		LOGGER.trace("Appending word {} to dictionary", word);
 		char[] letters = word.toCharArray();
 		// It creates the keys and the values of the map. If the word has got an odd length the suffix can be ""
-		for (int i = 0; i < letters.length; i++) {
 		/*
 		It's possible optimize the memory adding only the prefix with an odd length. I will add all the prefixes to be
 		able to give more information to the user.
 		*/
-			if (NumberUtils.isEven(i)) {
-        		// If i = (letters.length - 1) the prefix is the whole word and the suffix is "".
-				final String prefix = word.substring(0, i + 1);
-				final String suffix = word.substring(i + 1);
-				LOGGER.trace("Appending (prefix,suffix) = ({},{})", prefix, suffix);
-				SortedSet<String> suffixes = dictionary.get(prefix);
-				// Maybe, it's the first word with that prefix.
-				if (suffixes == null) {
-					suffixes = new TreeSet<>();
-					dictionary.put(prefix, suffixes);
-				}
-				suffixes.add(suffix);
+		IntStream.iterate(0, i -> i < letters.length, i -> i + 2).forEach(i -> {
+			// If i = (letters.length - 1) the prefix is the whole word and the suffix is "".
+			final String prefix = word.substring(0, i + 1);
+			final String suffix = word.substring(i + 1);
+			LOGGER.trace("Appending (prefix,suffix) = ({},{})", prefix, suffix);
+			SortedSet<String> suffixes = dictionary.get(prefix);
+			// Maybe, it's the first word with that prefix.
+			if (suffixes == null) {
+				suffixes = new TreeSet<>();
+				dictionary.put(prefix, suffixes);
 			}
-		}
+			suffixes.add(suffix);
+		});
 	}
 }

@@ -171,7 +171,7 @@ public class ComputerAIService implements ComputerAI {
 		suffix or a loser suffix for the player 2.
 		 */
 		metrics.setOnlyOneCharacterSuffixes(true);
-		for (String currentSuffix : reachableSuffixes) {
+		reachableSuffixes.forEach(currentSuffix -> {
 			final int lengthSuffix = currentSuffix.length();
 			if (lengthSuffix > 1) {
 				metrics.setOnlyOneCharacterSuffixes(false);
@@ -181,7 +181,7 @@ public class ComputerAIService implements ComputerAI {
 			} else {
 				metrics.getLoserSuffixes().add(currentSuffix);
 			}
-		}
+		});
 
 		assert metrics.getWinnerInputs() != null && metrics.getWinnerInputs().isEmpty();
 		assert metrics.getIntermediateInputs() != null && metrics.getIntermediateInputs().isEmpty();

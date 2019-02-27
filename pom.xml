@@ -15,7 +15,7 @@
 		<org.springframework.version>5.1.5.RELEASE</org.springframework.version>
 		<junitVersion>5.4.0</junitVersion>
 		<slf4jVersion>1.7.21</slf4jVersion>
-		<jdkVersion>10</jdkVersion>
+		<jdkVersion>11</jdkVersion>
 		<checkstylePluginVersion>3.0.0</checkstylePluginVersion>
 		<pmdPluginVersion>3.11.0</pmdPluginVersion>
 		<jacocoPluginVersion>0.8.3</jacocoPluginVersion>
@@ -64,7 +64,7 @@
 				<configuration>
 					<scanIntervalSeconds>5</scanIntervalSeconds>
 					<webAppConfig>
-						<contextPath>/ghost</contextPath>
+						<contextPath>/</contextPath>
 					</webAppConfig>
 					<jettyXml>src/main/resources/jetty-realm.xml</jettyXml>
 				</configuration>
@@ -297,9 +297,10 @@
 			<version>${slf4jVersion}</version>
 		</dependency>
 		<dependency>
-			<groupId>com.luchoct.projectlombok</groupId>
+			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-			<version>1.16.21.java10</version>
+			<version>1.18.6</version>
+			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 	<repositories>
@@ -316,17 +317,6 @@
             <name>Jboss Repository for Maven</name>
             <url>https://repository.jboss.org/nexus/content/groups/public-jboss/</url>
             <layout>default</layout>
-        </repository>
-        <repository>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-            <id>lib</id>
-            <name>lib</name>
-            <url>file://${project.basedir}\lib</url>
         </repository>
 	</repositories>
 </project>

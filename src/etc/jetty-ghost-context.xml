@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!DOCTYPE Configure PUBLIC "-//Jetty//Configure//EN" "http://www.eclipse.org/jetty/configure_9_3.dtd">
+<Configure class="org.eclipse.jetty.webapp.WebAppContext">
+  <Set name="contextPath">/</Set>
+  <Set name="war">/tmp/ghost.war</Set>
+
+  <Get name="securityHandler">
+    <Set name="loginService">
+      <New class="org.eclipse.jetty.security.HashLoginService">
+        <Set name="name">GhostRealm</Set>
+        <Set name="config"><SystemProperty name="jetty.home" default="."/>/etc/jetty-realm.properties</Set>
+      </New>
+    </Set>
+  </Get>
+</Configure>

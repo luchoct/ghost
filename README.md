@@ -22,9 +22,9 @@ java -jar target/dependency/jetty-runner.jar --port 8080 --path /ghost --config 
 ```
 https://optimal-ghost.herokuapp.com/ghost/
 ```
-### Run on Docker
+### Run on Local Docker
 #### Build the image locally
-In Windows, run Docker QuickStart Terminal.
+If you are on a Windows OS, run Docker QuickStart Terminal.
 On the root folder (where the Dockerfile is placed), run:
 ```
 docker build . -t ghost:1.0.0
@@ -36,6 +36,18 @@ docker run --rm -p 8081:8080 ghost:1.0.0
 #### Run on Docker
 ```
 https://localhost:8081/
+```
+
+### Run on Google App Engine
+#### Deploy the app
+:
+```
+gcloud app deploy --promote --stop-previous-version
+```
+#### Run on GCP
+Example
+```
+gcloud app browse
 ```
 
 # Changelog

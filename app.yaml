@@ -1,0 +1,16 @@
+runtime: custom
+env: flex
+
+network:
+  instance_tag: ghost-network-instance-tag
+  name: default
+  session_affinity: true
+
+resources:
+  cpu: 2
+  memory_gb: 1.5
+  disk_size_gb: 10
+
+manual_scaling:
+  instances: 1
+
